@@ -18,3 +18,5 @@ end
 require("eval")
 -- [toggle_door]
 require("door")
+-- [place_unit]
+require("unit")
