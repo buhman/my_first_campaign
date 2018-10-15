@@ -43,7 +43,7 @@ function wml_actions.evaluate_expression(cfg)
 
    if result.input and result.value then
       wml_actions.chat {
-         speaker = "[" .. wesnoth.sides[wesnoth.current.side].team_name .. "]",
+         speaker = "[" .. wesnoth.sides[wesnoth.current.side].user_team_name .. "]",
          message = "= " .. result.input .. "\n" .. engine.dump(result.value),
       }
    end

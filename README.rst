@@ -41,10 +41,10 @@ From a GM perspective, there are a few ~critical things that are missing by
 default; most of these should probably be done before using this in a "real"
 game:
 
-* ad-hoc terrain modification
+* ad-hoc terrain modification(?)
 * ad-hoc item placement
-* ad-hoc unit movement
-* distance measurement (not sure how to do off-turn actions yet)
+* distance measurement (non-gamestate affecting: `synced = no`)
+* forced player movement (need to check for walkable destination)
 
 These are, mechanically very easy. The hardest part of most of these will be
 building sane UI, which no doubt after doing all of these I will very learned
@@ -53,7 +53,8 @@ in.
 playing
 ^^^^^^^
 
-* initiative/non-static turn ordering (awkward, but doable I think)
+* initiative/non-static turn ordering (definitely doable)
+* blink/misty step
 
 I could also just use the surprise rules instead of initiative, which might be
 ok, actually.
