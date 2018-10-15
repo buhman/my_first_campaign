@@ -2,6 +2,7 @@ local dialog = require("dialogs/scenario")
 
 local all_scenarios = {
    "my_first_scenario",
+   "tyler_estate_intro",
    "cavern_stronghold",
    "null",
 }
