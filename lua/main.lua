@@ -20,3 +20,5 @@ require("eval")
 require("door")
 -- [place_unit]
 require("unit")
+-- [change_scenario]
+require("scenario")

@@ -27,6 +27,9 @@ All of these are already implemented and work correctly in MP.
 
 * expression evaluator with compound dice rolls (e.g: `2d20kh + 5` for an advantage roll with modifier)
 * ad-hoc door manipulation
+* ad-hoc scenario/map transitions
+  - could be improved
+* ad-hoc unit placement
 
 todo
 ----
@@ -38,8 +41,6 @@ From a GM perspective, there are a few ~critical things that are missing by
 default; most of these should probably be done before using this in a "real"
 game:
 
-* ad-hoc scenario/map transitions
-* ad-hoc unit placement
 * ad-hoc terrain modification
 * ad-hoc item placement
 * ad-hoc unit movement

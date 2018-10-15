@@ -1,5 +1,4 @@
 local dialog = require("dialogs/unit")
-local engine = require("eval/engine")
 
 local function select_unit()
    local i = wesnoth.get_dialog_value("unit_list")
@@ -10,16 +9,40 @@ local function select_unit()
    wesnoth.set_dialog_value(ut.name, "type_name")
 end
 
+local function sorted_units(unit_types)
+   local sorted = {}
+
+   local function cmp_race_id(a, b)
+      local race_a, id_a = table.unpack(a)
+      local race_b, id_b = table.unpack(b)
+      if race_a ~= race_b then
+         return race_a < race_b
+      else
+         return id_a < id_b
+      end
+   end
+
+   for _, u in pairs(unit_types) do
+      sorted[#sorted+1] = {u.race, u.id}
+   end
+
+   table.sort(sorted, cmp_race_id)
+
+   return sorted
+end
+
 local function preshow()
    local i = 1
 
-   for id, u in pairs(wesnoth.unit_types) do
-      wesnoth.set_dialog_value(u.__cfg.image, "unit_list", i, "list_image")
+   local units = sorted_units(wesnoth.unit_types)
 
-      wesnoth.set_dialog_value("<big>" .. u.name .. "</big>", "unit_list", i, "list_name")
-      wesnoth.set_dialog_markup(true, "unit_list", i, "list_name")
+   for _, tpl in ipairs(units) do
+      _, id = table.unpack(tpl)
+      u = wesnoth.unit_types[id]
+      wesnoth.set_dialog_value(u.__cfg.race, "unit_list", i, "list_race")
+      wesnoth.set_dialog_value(u.name, "unit_list", i, "list_name")
 
-      wesnoth.set_dialog_value(id, "unit_list", i, "list_id")
+      wesnoth.set_dialog_value(u.id, "unit_list", i, "list_id")
       wesnoth.set_dialog_visible(false, "unit_list", i, "list_id")
       i = i + 1
    end
@@ -50,6 +73,6 @@ function wml_actions.place_unit(cfg)
 
    if result.unit_type then
       local unit = wesnoth.create_unit { type = result.unit_type }
-      wesnoth.put_unit(cfg.x, cfg.y, unit)
+      wesnoth.put_unit(unit, cfg.x, cfg.y)
    end
 end

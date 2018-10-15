@@ -1,5 +1,5 @@
-local unit_list = T.listbox {
-   id = "unit_list",
+local scenario_list = T.listbox {
+   id = "scenario_list",
    horizontal_scrollbar_mode = "never",
 
    T.list_definition {
@@ -12,16 +12,6 @@ local unit_list = T.listbox {
                T.grid {
                   T.row {
                      grow_factor = 1,
-                     T.column {
-                        grow_factor = 0,
-                        horizontal_alignment = "left",
-                        border = "all",
-                        border_size = 5,
-                        T.label {
-                           id = "list_race",
-                           linked_group = "race"
-                        }
-                     },
 
                      T.column {
                         grow_factor = 1,
@@ -29,14 +19,14 @@ local unit_list = T.listbox {
                         border = "all",
                         border_size = 5,
                         T.label {
-                           id = "list_name",
+                           id = "scenario_name",
                            linked_group = "name"
                         }
                      },
 
                      T.column {
                         T.text_box {
-                           id = "list_id",
+                           id = "scenario_id",
                         }
                      }
                   }
@@ -47,55 +37,19 @@ local unit_list = T.listbox {
    }
 }
 
-local right_pane = T.grid {
-   T.row {
-      T.column {
-         grow_factor = 0,
-         horizontal_grow = true,
-         vertical_grow = true,
-         border = "all",
-         border_size = 5,
-
-         T.unit_preview_pane {
-            definition = "default",
-            id = "place_details",
-         }
-      },
-
-      T.column {
-         grow_factor = 1,
-         horizontal_grow = true,
-         vertical_alignment = "top",
-         border = "all",
-         border_size = 5,
-
-         unit_list
-      }
-   }
-}
-
 local dialog = {
-   id = "unit_placement",
-   description = "Unit placement dialog",
+   id = "change_scenario",
+   description = "Scenario change dialog",
 
    maximum_height = 500,
-   maximum_width = 650,
+   --maximum_width = 650,
 
    T.helptip { id = "tooltip_large" }, -- mandatory field
    T.tooltip { id = "tooltip_large" }, -- mandatory field
 
-   T.linked_group { id = "race", fixed_width = true },
    T.linked_group { id = "name", fixed_width = true },
 
    T.grid {
-      T.row {
-         grow_factor = 1,
-         T.column {
-            T.spacer {
-               width = 600 -- Force a minimum width since min_width doesn't work
-            }
-         }
-      },
 
       T.row {
          grow_factor = 1,
@@ -106,7 +60,7 @@ local dialog = {
             T.label {
                definition = "title",
                id = "title",
-               label = _ "Place unit"
+               label = _ "Change scenario"
             }
          }
       },
@@ -121,7 +75,7 @@ local dialog = {
             vertical_grow = true,
 
             --
-            right_pane
+            scenario_list
          }
       },
    }

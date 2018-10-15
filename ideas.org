@@ -1,0 +1,19 @@
+* unit placement
+
+** tree widget
+
+This would group and separate units by type, so it isn't a huge list.
+
+** scenario unit types
+
+One of those groups might be "unit types from this scenario"
+
+* fluff
+
+** unit placement
+
+could filter with text box (like the debug menu)
+
+should show recruit animation
+
+should show column headings
