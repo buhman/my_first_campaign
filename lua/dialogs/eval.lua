@@ -10,4 +10,4 @@ local dialog = {
    }
 }
 
-return dialog;
+return dialog

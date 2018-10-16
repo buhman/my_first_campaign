@@ -12,6 +12,10 @@ function require(script)
    return wesnoth.require(("~add-ons/my_first_campaign/lua/%s.lua"):format(script))
 end
 
+-- theme
+
+require("theme")
+
 -- actions
 
 -- [evaluate_expression]
@@ -22,3 +26,8 @@ require("door")
 require("unit")
 -- [change_scenario]
 require("scenario")
+-- [roll_initiative]
+require("initiative")
+
+--
+require("turn_order")

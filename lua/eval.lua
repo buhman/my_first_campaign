@@ -19,11 +19,11 @@ local function make_postshow(result)
       end
 
       local status, stack = xpcall(partial(engine.eval, input), eval_err)
-      if not status then
-         return
-      end
+      if not status then return end
 
       result.input = input
+      -- make original raw values available
+      result.stack = stack
       -- coerce single values
       stack = #stack == 1 and stack[1] or stack
       result.value = engine.dump(stack)
@@ -33,9 +33,7 @@ end
 function wml_actions.evaluate_expression(cfg)
    local function show_eval()
       local result = {}
-
       wesnoth.show_dialog(dialog, preshow, make_postshow(result))
-
       return result
    end
 
@@ -48,3 +46,7 @@ function wml_actions.evaluate_expression(cfg)
       }
    end
 end
+
+return {
+   make_postshow = make_postshow
+}
