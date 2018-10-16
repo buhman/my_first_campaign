@@ -28,8 +28,8 @@ All of these are already implemented and work correctly in MP.
 * expression evaluator with compound dice rolls (e.g: `2d20kh + 5` for an advantage roll with modifier)
 * ad-hoc door manipulation
 * ad-hoc scenario/map transitions
-  - could be improved
 * ad-hoc unit placement
+* initiative tracking with turn order enforcement
 
 todo
 ----
@@ -53,7 +53,6 @@ in.
 playing
 ^^^^^^^
 
-* initiative/non-static turn ordering (definitely doable)
 * blink/misty step
 
 I could also just use the surprise rules instead of initiative, which might be
