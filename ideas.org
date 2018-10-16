@@ -17,3 +17,12 @@ could filter with text box (like the debug menu)
 should show recruit animation
 
 should show column headings
+
+* next campaign
+
+it might be interesting to have an "enchanted forest" where the forest paths
+move when adventurers aren't looking; something you could really truely only
+pull of with a mask system like wesnoth.
+
+This would be combined with a sort of abstract puzzle that the adventurers need
+to figure out in order to go the right way.
