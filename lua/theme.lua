@@ -1,5 +1,5 @@
 -- global
-mfc_campaign = {
+tc_campaign = {
    current_initiative = {}
 }
 
@@ -27,8 +27,8 @@ function wesnoth.theme_items.unit_weapons()
       end
    end
 
-   if #mfc_campaign.current_initiative > 0 then
-      display_initiative(mfc_campaign.current_initiative)
+   if #tc_campaign.current_initiative > 0 then
+      display_initiative(tc_campaign.current_initiative)
    end
 
    return s

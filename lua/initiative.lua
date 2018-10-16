@@ -46,8 +46,8 @@ end
 
 function wml_actions.roll_initiative(cfg)
    -- clear initiative if already rolled
-   if #mfc_campaign.current_initiative ~= 0 then
-      mfc_campaign.current_initiative = {}
+   if #tc_campaign.current_initiative ~= 0 then
+      tc_campaign.current_initiative = {}
       return
    end
 
@@ -67,7 +67,7 @@ function wml_actions.roll_initiative(cfg)
       end
    end
 
-   local sides = {1,2,3,4,5}
+   local sides = {1,2,3,4,5,6}
    local function default_value()
       return {}
    end
@@ -76,5 +76,5 @@ function wml_actions.roll_initiative(cfg)
    local initiative = sort_initiative(results)
    --initiative_message(initiative)
 
-   mfc_campaign.current_initiative = initiative
+   tc_campaign.current_initiative = initiative
 end

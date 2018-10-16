@@ -12,16 +12,16 @@ local function order_lookup_table(initiative)
 end
 
 function wml_actions.maybe_turn_order(cfg)
-   if #mfc_campaign.current_initiative == 0 then
+   if #tc_campaign.current_initiative == 0 then
       order.next_side = nil
       return
    end
 
-   local lut = order_lookup_table(mfc_campaign.current_initiative)
+   local lut = order_lookup_table(tc_campaign.current_initiative)
 
    if order.next_side == nil then
       -- go to first in initiative order, if we haven't started initiative yet
-      order.next_side = mfc_campaign.current_initiative[1][3]
+      order.next_side = tc_campaign.current_initiative[1][3]
       wesnoth.end_turn(order.next_side)
    elseif order.next_side ~= wesnoth.current.side then
       -- we are on the wrong side; fix it
