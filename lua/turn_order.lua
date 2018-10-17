@@ -31,3 +31,8 @@ function wml_actions.maybe_turn_order(cfg)
       order.next_side = lut.forward[order.next_side]
    end
 end
+
+-- the default turn_order doesn't have side=; fix it
+function wml_actions.end_turn(cfg)
+   wesnoth.end_turn(cfg.side)
+end
