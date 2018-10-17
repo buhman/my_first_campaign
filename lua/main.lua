@@ -28,6 +28,8 @@ require("unit")
 require("scenario")
 -- [roll_initiative]
 require("initiative")
+-- [show_distance]
+require("distance")
 
 --
 require("turn_order")
