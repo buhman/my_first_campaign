@@ -30,6 +30,7 @@ All of these are already implemented and work correctly in MP.
 * ad-hoc scenario/map transitions
 * ad-hoc unit placement
 * initiative tracking with turn order enforcement
+* distance measurement
 
 todo
 ----
@@ -43,8 +44,8 @@ game:
 
 * ad-hoc terrain modification(?)
 * ad-hoc item placement
-* distance measurement (non-gamestate affecting: `synced = no`)
 * forced player movement (need to check for walkable destination)
+* emote-as (also emote for players)
 
 These are, mechanically very easy. The hardest part of most of these will be
 building sane UI, which no doubt after doing all of these I will very learned
