@@ -1,7 +1,3 @@
-local dump = require "debug/dump"
-
---helper.distance_between(x1, x2, y1, y2)
-
 local feet_per_hex = 5
 
 function wml_actions.show_distance(cfg)
