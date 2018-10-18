@@ -44,6 +44,7 @@ game:
 
 * ad-hoc terrain modification(?)
 * ad-hoc item placement
+  * item removal too
 * forced player movement (need to check for walkable destination)
 * emote-as (also emote for players)
 
