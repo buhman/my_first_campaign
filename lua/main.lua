@@ -22,8 +22,12 @@ require("theme")
 require("eval")
 -- [toggle_door]
 require("door")
+
 -- [place_unit]
-require("unit")
+require("unit/place")
+-- [extract_unit]
+require("unit/pop")
+
 -- [change_scenario]
 require("scenario")
 -- [roll_initiative]

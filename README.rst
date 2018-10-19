@@ -33,6 +33,7 @@ All of these are already implemented and work correctly in MP.
 * distance measurement
 * spellcasting
   * blink/misty step
+* forced player movement (could be improved)
 
 todo
 ----
@@ -47,7 +48,6 @@ game:
 * ad-hoc terrain modification(?)
 * ad-hoc item placement
   * item removal too
-* forced player movement (need to check for walkable destination)
 * emote-as (also emote for players)
 * time of day modification
 

@@ -1,4 +1,4 @@
-local dialog = require("dialogs/unit")
+local dialog = require "dialogs/unit"
 
 local function select_unit()
    local i = wesnoth.get_dialog_value("unit_list")
