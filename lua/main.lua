@@ -30,6 +30,8 @@ require("scenario")
 require("initiative")
 -- [show_distance]
 require("distance")
+-- [use_ability]
+require("ability")
 
 --
 require("turn_order")

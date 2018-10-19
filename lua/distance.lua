@@ -6,6 +6,11 @@ function wml_actions.show_distance(cfg)
       canrecruit = true,
    }
 
+   -- fixme: look at
+   -- wesnoth.get_viewing_side (current viewport)
+   -- wesnoth.get_displayed_unit (current pane)
+   -- wesnoth.select_unit (shows movement)
+
    for _, unit in ipairs(units) do
       local distance = helper.distance_between(unit.x, unit.y, cfg.x, cfg.y)
 
