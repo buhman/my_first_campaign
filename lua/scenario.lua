@@ -4,6 +4,7 @@ local all_scenarios = {
    "my_first_scenario",
    "tyler_estate_intro",
    "cavern_stronghold",
+   "forest_chase",
    "null",
 }
 

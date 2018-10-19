@@ -31,6 +31,8 @@ All of these are already implemented and work correctly in MP.
 * ad-hoc unit placement
 * initiative tracking with turn order enforcement
 * distance measurement
+* spellcasting
+  * blink/misty step
 
 todo
 ----
@@ -47,18 +49,11 @@ game:
   * item removal too
 * forced player movement (need to check for walkable destination)
 * emote-as (also emote for players)
+* time of day modification
 
 These are, mechanically very easy. The hardest part of most of these will be
 building sane UI, which no doubt after doing all of these I will very learned
 in.
-
-playing
-^^^^^^^
-
-* blink/misty step
-
-I could also just use the surprise rules instead of initiative, which might be
-ok, actually.
 
 maps
 ^^^^
