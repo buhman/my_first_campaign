@@ -39,3 +39,8 @@ require("ability")
 
 --
 require("turn_order")
+
+
+-- compiled lisp includes
+
+wesnoth.require("~add-ons/my_first_campaign/lisp/out.lua")
