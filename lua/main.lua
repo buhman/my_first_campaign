@@ -43,12 +43,35 @@ require("turn_order")
 
 
 -- compiled lisp includes
-
 wesnoth.require("~add-ons/my_first_campaign/lisp/out.lua")
 
-function wml_actions.blah(cfg)
-   wesnoth.message(string.format("%q", cfg.puzzle))
-   for k, v in pairs(cfg.puzzle) do
-      wesnoth.message(string.format("%s %s", k, v))
+-- XXX fixme hacks
+function wml_actions.glyph_puzzle_events(cfg)
+   for i = 1,3 do
+      local this_lever = "lever" .. i
+
+      wesnoth.add_event_handler {
+         name = "enter_hex",
+         first_time_only = "no",
+
+         { "filter", {
+              { "filter_location", {
+                   location_id = this_lever,
+              } }
+         } },
+
+         { "glyph_toggle_lever", {
+              lever_id = i,
+         } },
+
+         { "cancel_action", {
+         } },
+
+         { "move_unit", {
+              id = "$unit.id",
+              to_x = "$x2",
+              to_y = "$y2",
+         } }
+      }
    end
 end

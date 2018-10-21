@@ -1,11 +1,16 @@
 (import data/struct (defstruct))
-(import operator (bit-and bit-not bit-xor shr))
+(import operator (bit-and bit-not bit-xor shr shl))
 
 (import wesnoth)
 (import wml)
 
 (define colors '("red" "green" "blue"))
 (define glyph-len 4)
+
+(define lever-ops
+  (list (lambda (n) (bit-xor n 1))
+        (lambda (n) (bit-and (shl n 1) #b1111))
+        (lambda (n) (bit-xor n #b1111))))
 
 (defstruct state
   (fields (mutable levers)
@@ -71,20 +76,34 @@
 
 ;; init
 
-(defun new-puzzle (cfg)
+(defun new-puzzle! (cfg)
   (let ((levers (list true true nil))
-        (current 0)
-        (expected 15))
+        (current (wesnoth/random 0 15))
+        (expected (wesnoth/random 0 15)))
     (set-state-levers! state levers)
     (set-state-current! state current)
     (set-state-expected! state expected)
-    (draw-levers! levers)))
-
-(defun debug-draw (cfg)
-  (let ((a (.> cfg :a))
-        (b (.> cfg :b)))
-    (draw-glyphs! a b)))
+    (draw-levers! levers)
+    (draw-glyphs! current expected)))
 
 ;; exports
 
-(.<! wesnoth/wml_actions :new_puzzle new-puzzle)
+(.<! wesnoth/wml_actions :glyph_new_puzzle new-puzzle!)
+
+(defun update-glyphs! (idx)
+  (let ((current (state-current state))
+        (expected (state-expected state)))
+    (let* ((func (nth lever-ops idx))
+           (new-current (func current)))
+      (set-state-current! state new-current)
+      (draw-glyphs! new-current expected))))
+
+(defun toggle-lever (cfg)
+  (let* ((idx (.> cfg :lever_id))
+         (levers (state-levers state))
+         (toggle (not (nth levers idx))))
+    (setq! (nth levers idx) toggle)
+    (draw-lever! levers idx)
+    (update-glyphs! idx)))
+
+(.<! wesnoth/wml_actions :glyph_toggle_lever toggle-lever)
