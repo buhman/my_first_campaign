@@ -1,5 +1,6 @@
 (import data/struct (defstruct))
 (import operator (bit-and bit-not bit-xor shr shl))
+(import core/string (ends-with?))
 
 (import wesnoth)
 (import wml)
@@ -15,7 +16,8 @@
 (defstruct state
   (fields (mutable levers)
           (mutable current)
-          (mutable expected)))
+          (mutable expected)
+          (mutable enabled)))
 
 (define state (make-state))
 
@@ -74,10 +76,28 @@
         (len glyph-len))
     (bit-each (lambda (a p) (draw-glyph! a (- len p))) dt len)))
 
-;; init
+;; puzzle state update
 
-(defun new-puzzle! (cfg)
-  (let ((levers (list true true nil))
+(defun puzzle-solved? (current expected)
+  (if (= current expected)
+    (progn
+      (wml/act :glyph_puzzle_complete nil)
+      true)
+    nil))
+
+(defun update-glyphs! (idx)
+  (let ((current (state-current state))
+        (expected (state-expected state)))
+    (let* ((func (nth lever-ops idx))
+           (new-current (func current)))
+      (set-state-current! state new-current)
+      (draw-glyphs! new-current expected)
+      (puzzle-solved? new-current expected))))
+
+;; event handlers
+
+(defun new-puzzle! (&cfg)
+  (let ((levers (list nil nil nil))
         (current (wesnoth/random 0 15))
         (expected (wesnoth/random 0 15)))
     (set-state-levers! state levers)
@@ -86,24 +106,29 @@
     (draw-levers! levers)
     (draw-glyphs! current expected)))
 
-;; exports
+(defun toggle-lever! (cfg)
+  (if (state-enabled state)
+    (let* ((idx (.> cfg :lever_id))
+           (levers (state-levers state))
+           (toggle (not (nth levers idx))))
+      (setq! (nth levers idx) toggle)
+      (draw-lever! levers idx)
+      (update-glyphs! idx))
+    (wesnoth/message "[lever]" "You attempt to move the lever, but find it is stuck")))
 
-(.<! wesnoth/wml_actions :glyph_new_puzzle new-puzzle!)
+(defun toggle-enable! (cfg)
+  (let* ((terrain (.> cfg :terrain))
+         ;; we are sent the previous terrain, which has already been toggled
+         (enabled (not (ends-with? terrain "n"))))
+    (set-state-enabled! state enabled)
+    (if enabled
+      (new-puzzle!)
+      (init-draw!))))
 
-(defun update-glyphs! (idx)
-  (let ((current (state-current state))
-        (expected (state-expected state)))
-    (let* ((func (nth lever-ops idx))
-           (new-current (func current)))
-      (set-state-current! state new-current)
-      (draw-glyphs! new-current expected))))
+(defun init-draw! (&cfg)
+  (draw-levers! (list nil nil nil))
+  (draw-glyphs! 0 15))
 
-(defun toggle-lever (cfg)
-  (let* ((idx (.> cfg :lever_id))
-         (levers (state-levers state))
-         (toggle (not (nth levers idx))))
-    (setq! (nth levers idx) toggle)
-    (draw-lever! levers idx)
-    (update-glyphs! idx)))
-
-(.<! wesnoth/wml_actions :glyph_toggle_lever toggle-lever)
+(.<! wesnoth/wml_actions :glyph_puzzle_init init-draw!)
+(.<! wesnoth/wml_actions :glyph_toggle_lever toggle-lever!)
+(.<! wesnoth/wml_actions :glyph_toggle_enable toggle-enable!)

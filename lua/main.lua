@@ -22,7 +22,8 @@ require("theme")
 -- [evaluate_expression]
 require("eval")
 -- [toggle_door]
-require("door")
+-- [toggle_brazier]
+require("togglables")
 
 -- [place_unit]
 require("unit/place")
@@ -45,7 +46,7 @@ require("turn_order")
 -- compiled lisp includes
 wesnoth.require("~add-ons/my_first_campaign/lisp/out.lua")
 
--- XXX fixme hacks
+-- XXX zzz fixme hacks
 function wml_actions.glyph_puzzle_events(cfg)
    for i = 1,3 do
       local this_lever = "lever" .. i
@@ -74,4 +75,41 @@ function wml_actions.glyph_puzzle_events(cfg)
          } }
       }
    end
+
+   -- this could actually just be the lua helper
+   wesnoth.add_event_handler {
+      name = "glyph_puzzle_enable",
+      first_time_only = "no",
+
+      { "glyph_toggle_enable", {
+           terrain = "$terrain"
+      } }
+   }
+end
+
+function wml_actions.glyph_puzzle_complete(cfg)
+   wml_actions.tunnel {
+      bidirectional = "no",
+
+      { "filter", {
+      } },
+
+      { "source", {
+           location_id = "tunnel_source",
+      } },
+
+      { "target", {
+           location_id = "tunnel_target",
+      } },
+   }
+
+   wml_actions.item {
+      location_id = "tunnel_source",
+      image = "items/portal_blue.png",
+   }
+
+   wml_actions.item {
+      location_id = "tunnel_target",
+      image = "items/portal_orange.png",
+   }
 end
