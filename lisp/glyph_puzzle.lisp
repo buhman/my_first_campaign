@@ -1,5 +1,5 @@
 (import data/struct (defstruct))
-(import operator (bit-and bit-not bit-xor shr shl))
+(import operator (bit-and bit-not bit-xor shr shl pow))
 (import core/string (ends-with?))
 
 (import wesnoth)
@@ -7,11 +7,12 @@
 
 (define colors '("red" "green" "blue"))
 (define glyph-len 4)
+(define glyph-mask (- (pow 2 glyph-len) 1))
 
 (define lever-ops
   (list (lambda (n) (bit-xor n 1))
-        (lambda (n) (bit-and (shl n 1) #b1111))
-        (lambda (n) (bit-xor n #b1111))))
+        (lambda (n) (bit-and (shl n 1) glyph-mask))
+        (lambda (n) (bit-xor n glyph-mask))))
 
 (defstruct state
   (fields (mutable levers)
@@ -25,7 +26,7 @@
 
 (defun bit-difference (a b)
   "4-bit xnor"
-  (bit-and (bit-not (bit-xor a b)) #b1111))
+  (bit-and (bit-not (bit-xor a b)) glyph-mask))
 
 (defun bit-each (func n len)
   (let ((state (= 1 (bit-and n 1)))

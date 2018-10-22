@@ -4,3 +4,5 @@
 (define-native bit-not)
 (define-native shr)
 (define-native shl)
+
+(define-native pow)

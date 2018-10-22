@@ -5,4 +5,6 @@ return {
    ['bit-not'] = { tag = "expr", contents = "(~${1})", pure = true },
    ['shr'] = { tag = "expr", contents = "(${1} >> ${2})", pure = true },
    ['shl'] = { tag = "expr", contents = "(${1} << ${2})", pure = true },
+
+   ['pow'] = { tag = "expr", contents = "(${1} ^ ${2})", pure = true },
 }
