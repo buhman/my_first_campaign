@@ -117,14 +117,34 @@
       (update-glyphs! idx))
     (wesnoth/message "[lever]" "You attempt to move the lever, but find it is stuck")))
 
+(defun light-glyphs! ()
+  (wml/act :remove_shroud
+    {:x 22 :y 22 :radius 2})
+  (wml/act :remove_shroud
+    {:x 25 :y 22 :radius 1})
+  (wml/act :lift_fog
+    {:x 23 :y 23 :radius 3 :multiturn true}))
+
+(defun unlight-glyphs! ()
+  (wml/act :place_shroud
+    {:x 22 :y 22 :radius 2})
+  (wml/act :place_shroud
+    {:x 25 :y 22 :radius 1})
+  (wml/act :reset_fog
+    {:x 23 :y 23 :radius 3}))
+
 (defun toggle-enable! (cfg)
   (let* ((terrain (.> cfg :terrain))
          ;; we are sent the previous terrain, which has already been toggled
          (enabled (not (ends-with? terrain "n"))))
     (set-state-enabled! state enabled)
     (if enabled
-      (new-puzzle!)
-      (init-draw!))))
+      (progn
+        (new-puzzle!)
+        (light-glyphs!))
+      (progn
+        (unlight-glyphs!)
+        (init-draw!)))))
 
 (defun init-draw! (&cfg)
   (draw-levers! (list nil nil nil))

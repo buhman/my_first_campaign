@@ -75,16 +75,6 @@ function wml_actions.glyph_puzzle_events(cfg)
          } }
       }
    end
-
-   -- this could actually just be the lua helper
-   wesnoth.add_event_handler {
-      name = "glyph_puzzle_enable",
-      first_time_only = "no",
-
-      { "glyph_toggle_enable", {
-           terrain = "$terrain"
-      } }
-   }
 end
 
 function wml_actions.glyph_puzzle_complete(cfg)
