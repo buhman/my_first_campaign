@@ -18,11 +18,34 @@ should show recruit animation
 
 should show column headings
 
-* next campaign
+* pre-launch checklist
 
-it might be interesting to have an "enchanted forest" where the forest paths
-move when adventurers aren't looking; something you could really truely only
-pull of with a mask system like wesnoth.
+** deploy
 
-This would be combined with a sort of abstract puzzle that the adventurers need
-to figure out in order to go the right way.
+Make wesnothd and campaignd containers.
+
+** campaign story
+
+*** invoker
+
+**** spells
+
+deafening blast (disarm, knockback)
+cataclysm (5e sunburst)
+ice wall (5e wall of ice)
+meteor (5e meteor swarm)
+mage armor
+
+*** forest
+
+missing events for:
+
+- hidden_portal -> teleporter [entrance_tree, secret_tree]
+
+- trigger_reveal -> unblock_tree
+
+- ench-start -> moveto
+
+** mechanics
+
+players are supposed to always see remaining mana

@@ -21,11 +21,29 @@ function wml_actions.toggle_brazier(cfg)
 end
 
 function wml_actions.fire_special_event(cfg)
+   local str, ending = cfg.terrain, cfg.ends_with
+   local condition = str:sub(-#ending) ~= ending
+
+   function fire_event(event_name)
+      action = wml_actions[event_name]
+      if action ~= nil then
+         -- for native code, it is easier to write actions
+         action {
+            condition = condition
+         }
+      else
+         -- for wml, custom events are easier
+         local name = event_name .. string.format("_%s", condition)
+         wml_actions.fire_event {
+            name = name
+         }
+      end
+   end
+
    for event_name, loc in pairs(wesnoth.special_locations) do
       x,y = table.unpack(loc)
       if x == cfg.x and y == cfg.y then
-         wesnoth.fire(event_name, { terrain = cfg.terrain })
-         return
+         fire_event(event_name)
       end
    end
 end
