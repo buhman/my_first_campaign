@@ -40,7 +40,8 @@ require("distance")
 require("ability")
 -- [show_ability_list]
 require("ability_dm")
-
+-- [character_emote]
+require("emote")
 --
 require("turn_order")
 
