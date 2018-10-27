@@ -87,10 +87,17 @@ function wml_actions.ability_cancel(cfg)
    local filter = get_ability_filter(unit, ability)
 
    remove_target_hexes(filter)
-   wml_actions.clear_menu_item({id = "ability_cast"})
-   wml_actions.clear_menu_item({id = "ability_cancel"})
+   wml_actions.clear_menu_item {id = "ability_cast_" .. unit.id}
+   wml_actions.clear_menu_item {id = "ability_cancel_" .. unit.id}
+
+   wml_actions.event {
+      id="inhibit_move_" .. unit.id,
+      remove="yes",
+   }
 
    unit.variables["ability_cast"] = false
+
+   wml_actions.allow_end_turn {}
 end
 
 function wml_actions.learn_ability(cfg)
@@ -174,6 +181,18 @@ function wml_actions.show_ability_list(cfg)
          }
       }
    }
+
+   wml_actions.event {
+      name="exit_hex",
+      id="inhibit_move_" .. unit.id,
+      T.filter { id=unit.id },
+      T.ability_cancel {
+         ability_id = result.ability_id,
+         unit_id = unit.id,
+      }
+   }
+
+   wml_actions.disallow_end_turn {}
 
    unit.variables["ability_cast"] = true
 end
