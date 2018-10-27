@@ -6,6 +6,8 @@ local abilities = {
       properties = {
          cast_type = "point_target",
          cast_range = 30,
+         cast_sound = "abilities/blink.ogg",
+         cast_effect = "teleport",
       },
       description = [[
 <b>Blink</b> <i>(Recharge 3-6)</i>
@@ -20,6 +22,7 @@ As a bonus action the monk teleports, along with any equipment he is wearing or 
       properties = {
          cast_type = "unit_target",
          cast_range = 10,
+         cast_sound = "abilities/mana_void.ogg",
       },
       description = [[
 <b>Arcane Void</b> <i>(Recharge 6)</i>
@@ -34,6 +37,8 @@ See character sheet.
       properties = {
          cast_type = "point_target",
          cast_range = 5,
+         cast_sound = "abilities/conjure_image.ogg",
+         cast_effect = "teleport",
       },
       description = [[
 <b>Conjure Mirror Image</b> <i>(Recharge 5-6)</i>
@@ -99,6 +104,15 @@ local cast_types = {
 }
 
 local effects = {
+   teleport = function(unit, properties, target)
+      wml_actions.teleport {
+         T.filter {
+            id = unit.id
+         },
+         x = target.x,
+         y = target.y,
+      }
+   end
 }
 
 return {
