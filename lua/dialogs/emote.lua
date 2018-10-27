@@ -32,7 +32,7 @@ local emote_list = T.listbox {
 }
 
 local dialog = {
-   id = "change_emote",
+   id = "character_emote",
    description = "Character Emote",
 
    maximum_height = 500,
@@ -54,7 +54,7 @@ local dialog = {
             T.label {
                definition = "title",
                id = "title",
-               label = _ "Change emote"
+               label = _ "Character emote"
             }
          }
       },
