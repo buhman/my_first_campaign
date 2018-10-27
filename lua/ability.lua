@@ -108,7 +108,6 @@ function wml_actions.learn_ability(cfg)
    -- don't add duplicate ability
    for _, id in ipairs(ability_ids) do
       if ability_id == id then
-         wesnoth.message("bug", "attempt to learn duplicate ability: " .. id)
          return
       end
    end

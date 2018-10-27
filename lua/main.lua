@@ -38,6 +38,8 @@ require("initiative")
 require("distance")
 -- [use_ability]
 require("ability")
+-- [show_ability_list]
+require("ability_dm")
 
 --
 require("turn_order")
