@@ -42,6 +42,9 @@ require("ability")
 --
 require("turn_order")
 
+-- [init_monk_abilities]
+-- XXX this could be made completely generic
+require("units/monk")
 
 -- compiled lisp includes
 wesnoth.require("~add-ons/my_first_campaign/lisp/out.lua")
