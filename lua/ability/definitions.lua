@@ -38,7 +38,7 @@ See character sheet.
          cast_type = "point_target",
          cast_range = 5,
          cast_sound = "abilities/conjure_image.ogg",
-         cast_effect = "teleport",
+         cast_effect = "mirror_image",
       },
       description = [[
 <b>Conjure Mirror Image</b> <i>(Recharge 5-6)</i>
@@ -50,58 +50,69 @@ See character sheet.
 
 local feet_per_hex = 5
 
+local filter_impassable = T["not"] {
+   terrain="Q*^*",
+   T["or"] {
+      terrain="*^Q*",
+   },
+   T["or"] {
+      terrain="X*^*",
+   },
+   T["or"] {
+      terrain="*^X*",
+   },
+}
+
 local function default_filter(unit, properties, filter)
    return {
-      {"and", {
+      T["and"] {
           x = unit.x,
           y = unit.y,
           radius = properties.cast_range / feet_per_hex,
-      }},
-      {"and", {
-          {"filter_vision", {
+      },
+      T["and"] {
+          T.filter_vision {
               visible = "yes",
               respect_fog = "yes",
               side = unit.side,
-          }},
-      }},
-      {"not", {
-          terrain="Q*^*",
-          {"or", {
-              terrain="*^Q*",
-          }}
-      }},
-      {"not", {
-          terrain="X*^*",
-          {"or", {
-              terrain="*^X*",
-          }}
-      }},
+          },
+      },
+      filter_impassable,
       filter
    }
 end
 
 local cast_types = {
    point_target = function(unit, properties)
-      local filter = {
-         "not", {
-            {"filter", {}}
-      }}
+      local filter = T["not"] {
+         T.filter {}
+      }
 
       return default_filter(unit, properties, filter)
    end,
 
    unit_target = function(unit, properties)
-      local filter = {
-         "and", {
-            {"filter", {
-                {"not", {
-                    side = unit.side
-                }}
-            }}
-      }}
+      local filter = T["and"] {
+         T.filter {
+            T["not"] {
+               side = unit.side
+            }
+         }
+      }
+
       return default_filter(unit, properties, filter)
    end,
 }
+
+local function shuffle(t)
+   local tbl = {}
+   for i = #t, 1, -1 do
+      local j = wesnoth.random(i)
+      t[i], t[j] = t[j], t[i]
+      table.insert(tbl, t[i])
+   end
+   return tbl
+end
 
 local effects = {
    teleport = function(unit, properties, target)
@@ -111,6 +122,52 @@ local effects = {
          },
          x = target.x,
          y = target.y,
+      }
+   end,
+
+   mirror_image = function(unit, properties, target)
+      wml_actions.teleport {
+         T.filter {
+            id = unit.id
+         },
+         x = target.x,
+         y = target.y,
+      }
+
+      local filter = {
+         T["and"] {
+            x = unit.x,
+            y = unit.y,
+            radius = 1,
+         },
+         T["not"] {
+            T.filter {
+            }
+         },
+      }
+
+      local num_duplicates = 2
+      for i, loc in pairs(shuffle(wesnoth.get_locations(filter))) do
+         local dup = wesnoth.copy_unit(unit)
+         dup.id = unit.id .. "_duplicate_" .. i
+         dup.name = unit.name .. " duplicate"
+         wesnoth.put_unit(dup, loc[1], loc[2])
+
+         if i == num_duplicates then
+            break
+         end
+      end
+
+      wml_actions.event {
+         name = "side " .. wesnoth.current.side .. " turn " .. (wesnoth.current.turn + 2),
+         T.command {
+            T.kill {
+               id = unit.id .. "_duplicate_1"
+            },
+            T.kill {
+               id = unit.id .. "_duplicate_2"
+            },
+         }
       }
    end
 }

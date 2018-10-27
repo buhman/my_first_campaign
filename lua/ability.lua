@@ -183,8 +183,8 @@ function wml_actions.show_ability_list(cfg)
    }
 
    wml_actions.event {
-      name="exit_hex",
-      id="inhibit_move_" .. unit.id,
+      name = "exit_hex",
+      id = "inhibit_move_" .. unit.id,
       T.filter { id=unit.id },
       T.ability_cancel {
          ability_id = result.ability_id,
