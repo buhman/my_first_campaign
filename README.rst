@@ -32,9 +32,11 @@ All of these are already implemented and work correctly in MP.
 * initiative tracking with turn order enforcement
 * distance measurement
 * spellcasting
-  * blink/misty step
-  * conjure mirror image
+  - blink/misty step
+  - conjure mirror image
 * forced player movement (could be improved)
+* character emote
+* ad-hoc ability grants
 
 todo
 ----
@@ -47,12 +49,10 @@ default; most of these should probably be done before using this in a "real"
 game:
 
 * ad-hoc item placement
-  * item removal too
-* emote-as (also emote for players)
-* ad-hoc ability grants
+  - item removal
 * abilities
-  * dblast
-  * chaos meteor
+  - dblast
+  - chaos meteor
 
 These are, mechanically very easy. The hardest part of most of these will be
 building sane UI, which no doubt after doing all of these I will very learned
