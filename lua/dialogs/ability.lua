@@ -44,6 +44,12 @@ local ability_item = T.grid {
                }
             }
          }
+      },
+
+      T.column {
+         T.text_box {
+            id = "ability_id",
+         }
       }
    }
 }
@@ -103,10 +109,14 @@ local ability_preview = T.grid {
          border = "all",
          border_size = 5,
 
-         T.label {
-            wrap = true,
-            characters_per_line = 60,
-            id = "ability_description",
+         T.scrollbar_panel {
+            T.definition {
+            T.row { T.column {
+            T.label {
+               wrap = true,
+               characters_per_line = 60,
+               id = "ability_description",
+            } }} }
          }
       }
    }
@@ -121,108 +131,109 @@ local dialog = {
 
    definition = "default",
 
-   default_width = 400,
-   default_height = 500,
+   default_width = 700,
+   default_height = 800,
 
-   max_height = 700,
+   max_height = 900,
+   max_width = 900,
 
-      T.linked_group { id = "image", fixed_width = true },
-      T.linked_group { id = "name", fixed_width = true },
+   T.linked_group { id = "image", fixed_width = true },
+   T.linked_group { id = "name", fixed_width = true },
 
-      T.grid {
-         -- title
-         T.row {
-            grow_factor = 0,
+   T.grid {
+      -- title
+      T.row {
+         grow_factor = 0,
 
-            T.column {
-               grow_factor = 1,
-               border = "all",
-               border_size = 5,
-               horizontal_alignment = "left",
+         T.column {
+            grow_factor = 1,
+            border = "all",
+            border_size = 5,
+            horizontal_alignment = "left",
 
-               T.label {
-                  definition = "title",
-                  label = _ "Select Ability",
+            T.label {
+               definition = "title",
+               label = _ "Select Ability",
+            }
+         }
+      },
+
+      -- body
+      T.row {
+         T.column {
+            horizontal_grow = true,
+            vertical_grow = true,
+
+            T.grid {
+               T.row {
+                  T.column {
+                     grow_factor = 0,
+                     horizontal_grow = true,
+                     vertical_grow = true,
+                     border = "all",
+                     border_size = 5,
+
+                     ability_preview
+                  },
+
+                  T.column {
+                     grow_factor = 0,
+                     horizontal_grow = true,
+                     vertical_alignment = "top",
+                     border = "all",
+                     border_size = 5,
+
+                     ability_list
+                  }
                }
             }
-         },
+         }
+      },
 
-         -- body
-         T.row {
-            T.column {
-               horizontal_grow = true,
-               vertical_grow = true,
+      -- confirmation
+      T.row {
+         grow_factor = 0,
 
-               T.grid {
-                  T.row {
-                     T.column {
-                        grow_factor = 0,
-                        horizontal_grow = true,
-                        vertical_grow = true,
-                        border = "all",
-                        border_size = 5,
+         T.column {
+            grow_factor = 0,
+            horizontal_grow = true,
 
-                        ability_preview
-                     },
+            T.grid {
+               T.row {
+                  T.column {
+                     grow_factor = 1,
+                     horizontal_alignment = "left",
+                     T.spacer {
+                     }
+                  },
+                  T.column {
+                     grow_factor = 0,
+                     border = "all",
+                     border_size = 5,
+                     horizontal_alignment = "right",
 
-                     T.column {
-                        grow_factor = 0,
-                        horizontal_grow = true,
-                        vertical_alignment = "top",
-                        border = "all",
-                        border_size = 5,
+                     T.button {
+                        id = "ok",
+                        definition = "default",
+                        label = _ "Cast",
+                     }
+                  },
 
-                        ability_list
+                  T.column {
+                     grow_factor = 0,
+                     border = "all",
+                     border_size = 5,
+                     horizontal_alignment = "right",
+
+                     T.button {
+                        id = "cancel",
+                        definition = "default",
+                        label = _ "Cancel",
                      }
                   }
                }
             }
-         },
-
-         -- confirmation
-         T.row {
-            grow_factor = 0,
-
-            T.column {
-               grow_factor = 0,
-               horizontal_grow = true,
-
-               T.grid {
-                  T.row {
-                     T.column {
-                        grow_factor = 1,
-                        horizontal_alignment = "left",
-                        T.spacer {
-                        }
-                     },
-                     T.column {
-                        grow_factor = 0,
-                        border = "all",
-                        border_size = 5,
-                        horizontal_alignment = "right",
-
-                        T.button {
-                           id = "ok",
-                           definition = "default",
-                           label = _ "Cast",
-                        }
-                     },
-
-                     T.column {
-                        grow_factor = 0,
-                        border = "all",
-                        border_size = 5,
-                        horizontal_alignment = "right",
-
-                        T.button {
-                           id = "cancel",
-                           definition = "default",
-                           label = _ "Cancel",
-                        }
-                     }
-                  }
-               }
-            }
+         }
       }
    }
 }
