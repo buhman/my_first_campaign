@@ -33,6 +33,7 @@ All of these are already implemented and work correctly in MP.
 * distance measurement
 * spellcasting
   * blink/misty step
+  * conjure mirror image
 * forced player movement (could be improved)
 
 todo
@@ -45,11 +46,13 @@ From a GM perspective, there are a few ~critical things that are missing by
 default; most of these should probably be done before using this in a "real"
 game:
 
-* ad-hoc terrain modification(?)
 * ad-hoc item placement
   * item removal too
 * emote-as (also emote for players)
-* time of day modification
+* ad-hoc ability grants
+* abilities
+  * dblast
+  * chaos meteor
 
 These are, mechanically very easy. The hardest part of most of these will be
 building sane UI, which no doubt after doing all of these I will very learned

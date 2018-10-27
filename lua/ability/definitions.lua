@@ -22,6 +22,7 @@ As a bonus action the monk teleports, along with any equipment he is wearing or 
       properties = {
          cast_type = "unit_target",
          cast_range = 10,
+         cast_effect = "mana_void",
          cast_sound = "abilities/mana_void.ogg",
       },
       description = [[
@@ -169,7 +170,18 @@ local effects = {
             },
          }
       }
-   end
+   end,
+
+   mana_void = function(unit, properties, target)
+      local halo = "halo/implosion/implosion-1-[1~10].png:120,misc/empty.png:1000"
+      items.place_halo(target.x, target.y, halo)
+
+      wml_actions.delay {
+         time = 1800
+      }
+
+      items.remove(target.x, target.y, halo)
+   end,
 }
 
 return {

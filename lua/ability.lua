@@ -61,7 +61,7 @@ function wml_actions.ability_cast(cfg)
    local ability = definitions.abilities[cfg.ability_id]
    local unit = wesnoth.get_units({id = cfg.unit_id})[1]
 
-   wesnoth.message("[cast]", string.format("%s %s: (%s, %s)", cfg.unit_id, cfg.ability_id, cfg.x, cfg.y))
+   --wesnoth.message("[cast]", string.format("%s %s: (%s, %s)", cfg.unit_id, cfg.ability_id, cfg.x, cfg.y))
 
    function cast_effect()
       if ability.properties.cast_sound ~= nil then
