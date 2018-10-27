@@ -3,6 +3,9 @@ local definitions = require "ability/definitions"
 
 local function select_ability()
    local i = wesnoth.get_dialog_value("ability_list")
+   if i == 0 then
+      return
+   end
    local id = wesnoth.get_dialog_value("ability_list", i, "ability_id")
    local a = definitions.abilities[id]
 
@@ -13,6 +16,9 @@ end
 local function make_postshow(result)
    return function()
       local i = wesnoth.get_dialog_value("ability_list")
+      if i == 0 then
+         return
+      end
       local id = wesnoth.get_dialog_value("ability_list", i, "ability_id")
 
       result.ability_id = id
