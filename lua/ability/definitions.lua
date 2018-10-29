@@ -46,7 +46,73 @@ See character sheet.
 
 See character sheet.
 ]]
-   }
+   },
+   deafening_blast = {
+      name = "Deafening Blast",
+      icon = "icons/abilities/deafening_blast.png~SCALE(60,60)",
+      image = "icons/abilities/deafening_blast.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "deafening_blast",
+         pre_cast_sound = "invoker/aureal_incapacitator.ogg",
+         cast_sound = "abilities/deafening_blast.ogg",
+      },
+      description = [[
+<b>Deafening Blast</b>
+
+Knockback
+]]
+   },
+   sun_strike = {
+      name = "Sunburst",
+      icon = "icons/abilities/sun_strike.png~SCALE(60,60)",
+      image = "icons/abilities/sun_strike.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "sun_strike",
+         pre_cast_sound = "invoker/incantation_of_incineration.ogg",
+         cast_sound = "abilities/sun_strike.ogg",
+      },
+      description = [[
+<b>Sunburst</b>
+
+More fire
+]]
+   },
+   chaos_meteor = {
+      name = "Meteor Swarm",
+      icon = "icons/abilities/chaos_meteor.png~SCALE(60,60)",
+      image = "icons/abilities/chaos_meteor.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "chaos_meteor",
+         pre_cast_sound = "invoker/descent_of_fire.ogg",
+         cast_sound = "abilities/chaos_meteor.ogg",
+      },
+      description = [[
+<b>Meteor Swarm</b>
+
+Fire
+]]
+   },
+   ghost_walk = {
+      name = "Invisibility",
+      icon = "icons/abilities/ghost_walk.png~SCALE(60,60)",
+      image = "icons/abilities/ghost_walk.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "ghost_walk",
+         pre_cast_sound = "invoker/invisibility.ogg",
+         cast_sound = "abilities/ghost_walk.ogg",
+      },
+      description = [[
+<b>Invisibility</b>
+]]
+   },
 }
 
 local feet_per_hex = 5
@@ -84,6 +150,10 @@ local function default_filter(unit, properties, filter)
 end
 
 local cast_types = {
+   ground_target = function(unit, properties)
+      return default_filter(unit, properties)
+   end,
+
    point_target = function(unit, properties)
       local filter = T["not"] {
          T.filter {}
@@ -181,6 +251,87 @@ local effects = {
       }
 
       items.remove(target.x, target.y, halo)
+   end,
+
+   deafening_blast = function(unit, properties, target)
+      wml_actions.animate_unit {
+         flag = "deafening_blast",
+         T.filter {
+            id = unit.id
+         }
+      }
+
+      local locs = wesnoth.get_locations {
+         T["and"] {
+            x = unit.x,
+            y = unit.y,
+            radius = 2,
+         },
+         T["not"] {
+            x = unit.x,
+            y = unit.y,
+         },
+         T["and"] {
+            T.filter {
+            }
+         }
+      }
+
+      local function knockback(loc)
+         local target = wesnoth.get_unit(loc[1], loc[2])
+         local distance = wesnoth.map.distance_between(unit.x, unit.y, target.x, target.y)
+         local blast_intensity = 3 - distance
+         local dir = wesnoth.map.get_relative_dir(unit.x, unit.y, target.x, target.y)
+         local moveto = wesnoth.map.get_direction(target.x, target.y, dir, blast_intensity)
+         wesnoth.put_unit(target, moveto[1], moveto[2])
+      end
+
+      for _, loc in ipairs(locs) do
+         knockback(loc)
+      end
+
+      wml_actions.redraw {}
+   end,
+
+   sun_strike = function(unit, properties, target)
+      local halo = "halo/sunburst/circle-advance-1-[4,1~5].png:[1700,500,200,100*2,200],misc/empty.png:1000"
+
+      wml_actions.delay { time = 100 }
+
+      local locs = wesnoth.get_locations {
+         T["and"] {
+            x = unit.x,
+            y = unit.y,
+            radius = 30,
+         },
+         T["not"] {
+            x = unit.x,
+            y = unit.y,
+         },
+         T["and"] {
+            T.filter {
+            }
+         }
+      }
+
+      for _, loc in ipairs(locs) do
+         items.place_halo(loc[1], loc[2] - 5, halo)
+      end
+
+      wml_actions.delay { time = 3000 }
+
+      for _, loc in ipairs(locs) do
+         items.remove(loc[1], loc[2] - 5, halo)
+      end
+   end,
+
+   chaos_meteor = function(unit, properties, target)
+   end,
+
+   ghost_walk = function(unit, properties, target)
+      wesnoth.erase_unit(unit)
+
+      wml_actions.redraw {}
    end,
 }
 

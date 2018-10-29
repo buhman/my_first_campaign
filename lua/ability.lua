@@ -70,6 +70,10 @@ function wml_actions.ability_cast(cfg)
    --wesnoth.message("[cast]", string.format("%s %s: (%s, %s)", cfg.unit_id, cfg.ability_id, cfg.x, cfg.y))
 
    function cast_effect()
+      if ability.properties.pre_cast_sound ~= nil then
+         wesnoth.play_sound(ability.properties.pre_cast_sound)
+         wml_actions.delay { time = 1800 }
+      end
       if ability.properties.cast_sound ~= nil then
          wesnoth.play_sound(ability.properties.cast_sound)
       end
