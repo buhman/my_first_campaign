@@ -9,6 +9,9 @@ local initial_abilities = {
       "sun_strike",
       "ghost_walk",
    },
+   ["Arch Warlock"] = {
+      "chaotic_offering"
+   }
 }
 
 function wml_actions.init_abilities(cfg)

@@ -113,6 +113,23 @@ Fire
 <b>Invisibility</b>
 ]]
    },
+   chaotic_offering = {
+      name = "Chaotic Offering",
+      icon = "icons/abilities/chaotic_offering.png~SCALE(60,60)",
+      image = "icons/abilities/chaotic_offering.png",
+      properties = {
+         cast_type = "point_target",
+         cast_range = 35,
+         cast_effect = "chaotic_offering",
+         pre_cast_sound = "warlock/let_chaos_reign.ogg",
+         --cast_sound = "abilities/chaotic_offering.ogg",
+      },
+      description = [[
+<b>Chaotic Offering</b>
+
+Golems
+]]
+   },
 }
 
 local feet_per_hex = 5
@@ -332,6 +349,18 @@ local effects = {
       wesnoth.erase_unit(unit)
 
       wml_actions.redraw {}
+   end,
+
+   chaotic_offering = function(unit, properties, target)
+      local cast_sound = "abilities/chaotic_offering.ogg"
+
+      -- XXX extra delay; should be made more generic
+      wml_actions.delay { time = 1300 }
+
+      wesnoth.play_sound(cast_sound)
+
+      local unit = wesnoth.create_unit { type = "Infernal Golem" }
+      wesnoth.put_unit(unit, target.x, target.y)
    end,
 }
 
