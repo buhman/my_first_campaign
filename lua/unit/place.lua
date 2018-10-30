@@ -1,4 +1,5 @@
 local dialog = require "dialogs/unit"
+local mana = require "unit/mana"
 
 local function select_unit()
    local i = wesnoth.get_dialog_value("unit_list")
@@ -74,5 +75,6 @@ function wml_actions.place_unit(cfg)
    if result.unit_type then
       local unit = wesnoth.create_unit { type = result.unit_type }
       wesnoth.put_unit(unit, cfg.x, cfg.y)
+      mana.unit_init(unit)
    end
 end
