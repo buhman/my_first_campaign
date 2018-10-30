@@ -33,7 +33,6 @@ function wml_actions.show_learn_ability_list(cfg)
 
    local function learn(ability_id)
       local unit = wesnoth.get_unit(cfg.x, cfg.y)
-      wesnoth.message(unit.id, ability_id)
       wml_actions.learn_ability {
          unit_id = unit.id,
          ability_id = ability_id

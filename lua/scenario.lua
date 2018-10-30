@@ -40,7 +40,6 @@ function wml_actions.change_scenario(cfg)
    local result = wesnoth.synchronize_choice("change_scenario", show_scenario)
 
    if result.scenario_id then
-      wesnoth.message(result.scenario_id)
       wesnoth.set_next_scenario(result.scenario_id)
 
       wesnoth.end_level {
