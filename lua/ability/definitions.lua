@@ -88,7 +88,7 @@ More fire
       properties = {
          cast_type = "ground_target",
          cast_range = 5,
-         cast_effect = "chaos_meteor",
+         cast_effect = "null",
          pre_cast_sound = "invoker/descent_of_fire.ogg",
          cast_sound = "abilities/chaos_meteor.ogg",
       },
@@ -130,6 +130,20 @@ Fire
 Golems
 ]]
    },
+   freezing_field = {
+      name = "Freezing Field",
+      icon = "icons/abilities/freezing_field.png~SCALE(60,60)",
+      image = "icons/abilities/freezing_field.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "null",
+         cast_sound = "abilities/freezing_field.ogg",
+      },
+      description = [[
+<b>Freezing Field</b>
+]]
+   }
 }
 
 local feet_per_hex = 5
@@ -203,6 +217,9 @@ local function shuffle(t)
 end
 
 local effects = {
+   null = function(unit, properties, target)
+   end,
+
    teleport = function(unit, properties, target)
       wml_actions.teleport {
          T.filter {
@@ -340,9 +357,6 @@ local effects = {
       for _, loc in ipairs(locs) do
          items.remove(loc[1], loc[2] - 5, halo)
       end
-   end,
-
-   chaos_meteor = function(unit, properties, target)
    end,
 
    ghost_walk = function(unit, properties, target)

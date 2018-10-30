@@ -10,8 +10,11 @@ local initial_abilities = {
       "ghost_walk",
    },
    ["Arch Warlock"] = {
-      "chaotic_offering"
-   }
+      "chaotic_offering",
+   },
+   ["Ice Maiden"] = {
+      "freezing_field",
+   },
 }
 
 function wml_actions.init_abilities(cfg)
