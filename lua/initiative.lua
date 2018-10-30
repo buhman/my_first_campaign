@@ -67,7 +67,7 @@ function wml_actions.roll_initiative(cfg)
       end
    end
 
-   local sides = {1,2,3,4,5,6}
+   local sides = {1,2,3,4,5}
    local function default_value()
       return {}
    end
