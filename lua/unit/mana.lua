@@ -7,6 +7,7 @@ local unit_mana = {
    ["Wind Ranger"] = 4,
    ["Arch Warlock"] = 15,
    ["Custom Dark Sorcerer"] = 5,
+   ["Elvish Centaur"] = 9,
 }
 
 local function unit_init(unit)
