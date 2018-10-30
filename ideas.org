@@ -17,35 +17,3 @@ could filter with text box (like the debug menu)
 should show recruit animation
 
 should show column headings
-
-* pre-launch checklist
-
-** deploy
-
-Make wesnothd and campaignd containers.
-
-** campaign story
-
-*** invoker
-
-**** spells
-
-deafening blast (disarm, knockback)
-cataclysm (5e sunburst)
-ice wall (5e wall of ice)
-meteor (5e meteor swarm)
-mage armor
-
-*** forest
-
-missing events for:
-
-- hidden_portal -> teleporter [entrance_tree, secret_tree]
-
-- trigger_reveal -> unblock_tree
-
-- ench-start -> moveto
-
-** mechanics
-
-players are supposed to always see remaining mana

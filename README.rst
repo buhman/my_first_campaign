@@ -35,3 +35,26 @@ All of these are already implemented and work correctly in MP.
 * forced player movement (could be improved)
 * character emote
 * ad-hoc ability grants
+
+what's next
+-----------
+
+Some of this code is reusable, but much needs to be reworked (like emote, for
+example). The ugliest part is is the wml <-> lua (<-> lisp) boundary, and I'd
+like to escape the everything-is-a-wml_action pattern I overused here.
+
+There are several engine limitations that might be hard to fix; namely:
+
+* no simultaneous turns
+* spellcasting could be so much better if the selection api allowed more than movement
+* similarly, ranged attacks aren't possible
+
+Modifying Wesnoth itself to accomodate these might be not terribly hard, but
+then there are other lesser issues to consider:
+
+* 72x72 is a bit limiting
+* Lua API could be better (and is getting better in 1.15)
+* UI modification is a bit limited outside of the dialog API
+
+Worth considering might be to ground-up write exactly what I want from a more
+generic game engine, but also is a lot of work.
