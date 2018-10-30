@@ -31,38 +31,7 @@ All of these are already implemented and work correctly in MP.
 * ad-hoc unit placement
 * initiative tracking with turn order enforcement
 * distance measurement
-* spellcasting
-  - blink/misty step
-  - conjure mirror image
+* spellcasting (several abilities implemented)
 * forced player movement (could be improved)
 * character emote
 * ad-hoc ability grants
-
-todo
-----
-
-dungeon mastering
-^^^^^^^^^^^^^^^^^
-
-From a GM perspective, there are a few ~critical things that are missing by
-default; most of these should probably be done before using this in a "real"
-game:
-
-* ad-hoc item placement
-  - item removal
-* abilities
-  - dblast
-  - chaos meteor
-
-These are, mechanically very easy. The hardest part of most of these will be
-building sane UI, which no doubt after doing all of these I will very learned
-in.
-
-maps
-^^^^
-
-Map-making is ridiculously hard. You not only want something that looks good,
-but it also needs to have a correct/consistent scale for combat, etc..
-
-It would be an interesting experiment, if combat always transitioned to a
-separate battle map, while exploration was always on an "overworld".
