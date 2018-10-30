@@ -143,6 +143,20 @@ Golems
       description = [[
 <b>Freezing Field</b>
 ]]
+   },
+   enrage = {
+      name = "Enrage",
+      icon = "icons/abilities/enrage.png~SCALE(60,60)",
+      image = "icons/abilities/enrage.png",
+      properties = {
+         cast_type = "ground_target",
+         cast_range = 5,
+         cast_effect = "enrage",
+         cast_sound = "abilities/enrage.ogg",
+      },
+      description = [[
+<b>Enrage</b>
+]]
    }
 }
 
@@ -375,6 +389,17 @@ local effects = {
 
       local unit = wesnoth.create_unit { type = "Infernal Golem" }
       wesnoth.put_unit(unit, target.x, target.y)
+   end,
+
+   enrage = function(unit, properties, target)
+      --wesnoth.advance_unit(unit, true)
+      wml_actions.modify_unit {
+         T.filter {
+            id = unit.id
+         },
+         max_experience = 1,
+         experience = 1,
+      }
    end,
 }
 
