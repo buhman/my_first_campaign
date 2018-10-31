@@ -2,23 +2,27 @@ local dialog = require("dialogs/initiative")
 
 local eval = require("eval")
 local engine = require("eval/engine")
+local utils = require("utils")
 
 local function preshow(side)
-   local name = wesnoth.sides[wesnoth.current.side].user_team_name
+   local side = wesnoth.get_viewing_side()
+   local name = utils.unit_for_side(side).name
 
    wesnoth.set_dialog_focus("eval_input")
-   --wesnoth.set_dialog_value("Roll initiative for " .. name .. " : " .. side, "title")
+   wesnoth.set_dialog_value("Roll initiative for " .. name, "title")
 end
 
 local function sort_initiative(results)
    local initiative = {}
 
    for side, result in ipairs(results) do
-      local name = wesnoth.sides[side].user_team_name
-      -- XXX: ??? result gets clobbered by synchronize_choices??
-      -- result.stack should be a table here, but it's not?
-      if result.value ~= nil then
-         initiative[#initiative+1] = {tonumber(result.value), name, side}
+      local unit = utils.unit_for_side(side)
+      if unit ~= nil then
+         -- XXX: ??? result gets clobbered by synchronize_choices??
+         -- result.stack should be a table here, but it's not?
+         if result.value ~= nil then
+            table.insert(initiative, {tonumber(result.value), unit.name, side})
+         end
       end
    end
 
@@ -67,7 +71,7 @@ function wml_actions.roll_initiative(cfg)
       end
    end
 
-   local sides = {1,2,3,4,5}
+   local sides = utils.side_list()
    local function default_value()
       return {}
    end

@@ -1,5 +1,6 @@
 local dialog = require("dialogs/eval")
 local engine = require("eval/engine")
+local utils = require("utils")
 
 local function preshow()
    wesnoth.set_dialog_focus("eval_input")
@@ -34,14 +35,16 @@ function wml_actions.evaluate_expression(cfg)
    local function show_eval()
       local result = {}
       wesnoth.show_dialog(dialog, preshow, make_postshow(result))
+      result.side = wesnoth.get_viewing_side()
       return result
    end
 
    local result = wesnoth.synchronize_choice("evaluate_expression", show_eval)
 
    if result.input and result.value then
+      local speaker = utils.unit_for_side(result.side).name
       wml_actions.chat {
-         speaker = "[" .. wesnoth.sides[wesnoth.current.side].user_team_name .. "]",
+         speaker = "[" .. speaker .. "]",
          message = "= " .. result.input .. "\n" .. engine.dump(result.value),
       }
    end
