@@ -134,9 +134,7 @@
     {:x 23 :y 23 :radius 3}))
 
 (defun toggle-enable! (cfg)
-  (let* ((terrain (.> cfg :terrain))
-         ;; we are sent the previous terrain, which has already been toggled
-         (enabled (not (ends-with? terrain "n"))))
+  (let* ((enabled (.> cfg :condition)))
     (set-state-enabled! state enabled)
     (if enabled
       (progn
