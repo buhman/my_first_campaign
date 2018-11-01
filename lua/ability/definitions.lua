@@ -69,8 +69,7 @@ Knockback
       icon = "icons/abilities/sun_strike.png~SCALE(60,60)",
       image = "icons/abilities/sun_strike.png",
       properties = {
-         cast_type = "ground_target",
-         cast_range = 5,
+         cast_type = "self",
          cast_effect = "sun_strike",
          pre_cast_sound = "invoker/incantation_of_incineration.ogg",
          cast_sound = "abilities/sun_strike.ogg",
@@ -103,8 +102,7 @@ Fire
       icon = "icons/abilities/ghost_walk.png~SCALE(60,60)",
       image = "icons/abilities/ghost_walk.png",
       properties = {
-         cast_type = "ground_target",
-         cast_range = 5,
+         cast_type = "self",
          cast_effect = "ghost_walk",
          pre_cast_sound = "invoker/invisibility.ogg",
          cast_sound = "abilities/ghost_walk.ogg",
@@ -135,8 +133,7 @@ Golems
       icon = "icons/abilities/freezing_field.png~SCALE(60,60)",
       image = "icons/abilities/freezing_field.png",
       properties = {
-         cast_type = "ground_target",
-         cast_range = 5,
+         cast_type = "self",
          cast_effect = "null",
          cast_sound = "abilities/freezing_field.ogg",
       },
@@ -149,13 +146,26 @@ Golems
       icon = "icons/abilities/enrage.png~SCALE(60,60)",
       image = "icons/abilities/enrage.png",
       properties = {
-         cast_type = "ground_target",
-         cast_range = 5,
+         cast_type = "self",
          cast_effect = "enrage",
          cast_sound = "abilities/enrage.ogg",
       },
       description = [[
 <b>Enrage</b>
+]]
+   },
+   dash = {
+      name = "Dash",
+      icon = "icons/abilities/dash.png~SCALE(60,60)",
+      image = "icons/abilities/dash.png",
+      properties = {
+         cast_type = "self",
+         cast_effect = "dash",
+      },
+      description = [[
+<b>Dash</b>
+
+When you take the Dash action, you gain extra movement for the current turn. The increase equals your speed, after applying any modifiers.
 ]]
    }
 }
@@ -217,6 +227,16 @@ local cast_types = {
       }
 
       return default_filter(unit, properties, filter)
+   end,
+
+   self = function(unit, properties)
+      local filter = {
+         T["and"] {
+            x = unit.x,
+            y = unit.y,
+      }}
+
+      return filter
    end,
 }
 
@@ -400,6 +420,10 @@ local effects = {
          max_experience = 1,
          experience = 1,
       }
+   end,
+
+   dash = function(unit, properties, target)
+      unit.moves = unit.moves + unit.max_moves
    end,
 }
 

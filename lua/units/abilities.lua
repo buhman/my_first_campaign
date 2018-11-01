@@ -2,6 +2,7 @@ local initial_abilities = {
    ["Mageslayer Monk"] = {
       "blink",
       "arcane_void",
+      "dash",
    },
    ["Master Sorcerer"] = {
       "chaos_meteor",
