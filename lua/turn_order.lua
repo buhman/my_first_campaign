@@ -1,5 +1,7 @@
 local order = {
-   next_side = nil
+   next_side = nil,
+   yield_to = nil,
+   yield_from = nil,
 }
 
 local function order_lookup_table(initiative)
@@ -11,15 +13,33 @@ local function order_lookup_table(initiative)
    return lookup
 end
 
+function wml_actions.yield_turn(cfg)
+   order.yield_to = cfg.side
+   order.yield_from = wesnoth.current.side
+   wesnoth.message("yield_from", order.yield_from)
+
+   wesnoth.end_turn(order.yield_to)
+end
+
 function wml_actions.maybe_turn_order(cfg)
    if #tc_campaign.current_initiative == 0 then
       order.next_side = nil
       return
    end
+   if order.yield_to == wesnoth.current.side then
+      return
+   end
+   if order.yield_from == wesnoth.current.side then
+      order.yield_from = nil
+      order.yield_to = nil
+      return
+   end
 
    local lut = order_lookup_table(tc_campaign.current_initiative)
 
-   if order.next_side == nil then
+   if order.yield_from ~= nil then
+      wesnoth.end_turn(order.yield_from)
+   elseif order.next_side == nil then
       -- go to first in initiative order, if we haven't started initiative yet
       order.next_side = tc_campaign.current_initiative[1][3]
       wesnoth.end_turn(order.next_side)
