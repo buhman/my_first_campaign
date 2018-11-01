@@ -29,6 +29,8 @@ require("togglables")
 require("unit/place")
 -- [extract_unit]
 require("unit/pop")
+-- [change_side]
+require("side")
 
 -- [change_scenario]
 require("scenario")
