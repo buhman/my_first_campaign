@@ -95,6 +95,8 @@ operator = {
    le  = function(n,m) return n <= m end;
    ge  = function(n,m) return n >= m end;
    ne  = function(n,m) return n ~= m end;
+
+   concat = function(a,b) return a .. b end;
 }
 
 return {}

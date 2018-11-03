@@ -2,6 +2,7 @@ require "functional"
 
 local dialog = require "dialogs/macros/attack_page" -- for buttons
 local engine = require "eval/engine"
+local show_results = require "macros/attack_page/result"
 
 local attack_dice = {
    -- XXX meh hardcoded constants
@@ -26,20 +27,40 @@ local damage = {
    regular = partial(repeat_roll, 1),
 }
 
-local function single_attack(result)
-   local ad_expr = attack_dice[result.fields.advantage](result.fields.attack_die)
+local function expr_add(n, expr)
+   return table.concat(repeat_n(expr, n), " + ")
+end
 
-   wesnoth.message(ad_expr)
+local damage_expr = {
+   success = partial(expr_add, 2),
+   failure = partial(expr_add, 0),
+   regular = partial(expr_add, 1),
+}
+
+local damage_color = {
+   success = "green",
+   failure = "red",
+}
+
+local function single_attack(fields)
+   local ad_expr = attack_dice[fields.advantage](fields.attack_die)
 
    local attack_roll = engine.eval_single(ad_expr)
    local success_type = critical[attack_roll]
-   local damage_roll = damage[success_type](result.fields.damage_dice)
+   local damage_roll = damage[success_type](fields.damage_dice)
 
    local outcome = {
-      critical = success_type == "success",
-      attack = attack_roll + engine.eval_single(result.fields.attack_mod),
-      damage = damage_roll + engine.eval_single(result.fields.damage_mod),
-      extra = engine.eval_single(result.fields.extra),
+      --critical = success_type == "success",
+      attack = {
+         color = damage_color[success_type],
+         value = attack_roll + engine.eval_single(fields.attack_mod),
+      },
+      damage = {
+         value = damage_roll + engine.eval_single(fields.damage_mod),
+      },
+      extra = {
+         value = engine.eval_single(fields.extra),
+      }
    }
 
    return outcome
@@ -48,7 +69,19 @@ end
 local function attack_handler(result)
    -- roll attack dice
 
-   local res = map(single_attack, repeat_n(result, result.fields.multiattack))
+   local fields = result.fields
+
+   local attacks = map(single_attack, repeat_n(result.fields, result.fields.multiattack))
+
+   local attack = attack_dice[fields.advantage](fields.attack_die) .. " + " .. fields.attack_mod
+   local damage = "critical?(" .. fields.damage_dice .. ") + " .. fields.damage_mod
+   local tooltips = {
+      attack = attack,
+      damage = damage,
+      extra = fields.extra,
+   }
+
+   show_results(tooltips, attacks)
 end
 
 local function save_handler(result)
