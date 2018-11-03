@@ -1,4 +1,4 @@
-require "eval/functional"
+require "functional"
 
 identifier = require "eval/identifier"
 

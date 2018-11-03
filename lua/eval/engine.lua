@@ -1,4 +1,4 @@
-require "eval/functional"
+require "functional"
 
 parser = require "eval/parser"
 lexer = require "eval/lexer"
@@ -9,6 +9,20 @@ local eval = compose(
    parser.uninfix,
    interpreter.evaluate
 )
+
+local function eval_single(expr)
+   local stack = eval(expr)
+   if #stack ~= 1 then
+      local msg = [[usage error: single stack return value required
+    expr = %q
+    #stack = %q
+    dump(stack) = %s
+]]
+      wesnoth.message(string.format(msg, expr, #stack, engine.dump(stack)))
+      error("aborted")
+   end
+   return stack[#stack]
+end
 
 local function dump(o)
    if type(o) == 'table' then
@@ -25,5 +39,6 @@ end
 
 return {
    eval = eval,
+   eval_single = eval_single,
    dump = dump,
 }

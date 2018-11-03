@@ -21,6 +21,8 @@ require("theme")
 
 -- [evaluate_expression]
 require("eval")
+-- [show_macros]
+require("macros")
 -- [toggle_door]
 -- [toggle_brazier]
 require("togglables")

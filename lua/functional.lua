@@ -55,7 +55,27 @@ function compose(...)
    return function(...) return recurse(1, ...) end
 end
 
--- table renames
+-- range(n)
+-- > range(5)
+-- {1,2,3,4,5}
+function range(n)
+   t = {}
+   for i = 1,n do
+      table.insert(t, i)
+   end
+   return t
+end
+
+-- repeat
+function repeat_n(val, n)
+   t = {}
+   for i = 1,n do
+      table.insert(t, val)
+   end
+   return t
+end
+
+-- table aliases
 
 push = table.insert
 pop = table.remove

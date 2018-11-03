@@ -1,4 +1,4 @@
-require 'eval/functional'
+require "functional"
 
 local parser = {}
 

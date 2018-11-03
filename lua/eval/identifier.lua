@@ -4,7 +4,6 @@ local function roll(die, n)
    local t = {}
    for _ = 1,n do
       local value = math.random(die)
-      print("roll d" .. die .. ": " .. value)
       t[#t+1] = value
    end
    return t
