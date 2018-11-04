@@ -6,9 +6,9 @@ local function preshow()
    wesnoth.set_dialog_focus("eval_input")
 end
 
-local function make_postshow(result)
+local function make_postshow(result, widget_id)
    return function()
-      local input = wesnoth.get_dialog_value("eval_input")
+      local input = wesnoth.get_dialog_value(widget_id)
 
       if input == "" then return end
 
@@ -34,7 +34,7 @@ end
 function wml_actions.evaluate_expression(cfg)
    local function show_eval()
       local result = {}
-      wesnoth.show_dialog(dialog, preshow, make_postshow(result))
+      wesnoth.show_dialog(dialog, preshow, make_postshow(result, "eval_input"))
       result.side = wesnoth.get_viewing_side()
       return result
    end

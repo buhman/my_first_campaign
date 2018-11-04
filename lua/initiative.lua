@@ -3,6 +3,7 @@ local gt = require("dialogs/generic_text")
 local eval = require("eval")
 local engine = require("eval/engine")
 local utils = require("utils")
+local turn_order = require("turn_order")
 
 local function preshow(side)
    local side = wesnoth.get_viewing_side()
@@ -16,21 +17,13 @@ local function sort_initiative(results)
    local initiative = {}
 
    for side, result in ipairs(results) do
-      local unit = utils.unit_for_side(side)
-      if unit ~= nil then
-         -- XXX: ??? result gets clobbered by synchronize_choices??
-         -- result.stack should be a table here, but it's not?
-         if result.value ~= nil then
-            table.insert(initiative, {tonumber(result.value), unit.name, side})
-         end
+      if result.value ~= nil then
+         table.insert(initiative, { roll_value = result.value, side = side })
       end
    end
 
    local function cmp_initiative(a, b)
-      local value_a, _, _ = table.unpack(a)
-      local value_b, _, _ = table.unpack(b)
-
-      return value_a > value_b
+      return a.roll_value > b.roll_value
    end
 
    table.sort(initiative, cmp_initiative)
@@ -38,6 +31,7 @@ local function sort_initiative(results)
    return initiative
 end
 
+-- XXX dead code
 local function initiative_message(initiative)
    local msg = "order:\n"
    for _, order in ipairs(initiative) do
@@ -48,10 +42,14 @@ local function initiative_message(initiative)
    wesnoth.message("[initiative]", msg)
 end
 
+local single_explain = [[your expression was either malformed, or returned multiple values (did you forget 's' on a dice roll?)"
+    stack: %s
+]]
+
 function wml_actions.roll_initiative(cfg)
    -- clear initiative if already rolled
-   if #tc_campaign.current_initiative ~= 0 then
-      tc_campaign.current_initiative = {}
+   if #turn_order.state.current_initiative ~= 0 then
+      turn_order.state.current_initiative = {}
       return
    end
 
@@ -61,28 +59,21 @@ function wml_actions.roll_initiative(cfg)
       local dialog = make_dialog {
          id = "eval_initiative",
       }
-      local val = wesnoth.show_dialog(dialog, preshow, eval.make_postshow(result))
+      local val = wesnoth.show_dialog(dialog, preshow, eval.make_postshow(result, "eval_initiative"))
 
-      -- XXX maybe use single_eval
       if not result.stack or #(result.stack) ~= 1 or type(result.stack[1]) ~= "number" then
-         local explain = "your expression was either malformed, or returned multiple values (did you forget 's' on a dice roll?)"
-         local msg = string.format("single value required, got: %s\n%s", result.value, explain)
-         wesnoth.message("[invalid expression]", msg)
+         wesnoth.message("[invalid expression]", string.format(single_explain, result.value))
          return show_initiative()
-      else
-         wesnoth.message("[initiative]", result.value)
-         return result
       end
+
+      wesnoth.message("[initiative roll]", result.value)
+      return {value = result.stack[1]}
    end
 
    local sides = utils.side_list()
-   local function default_value()
-      return {}
-   end
-   local results = wesnoth.synchronize_choices("initiative", show_initiative, default_value, sides)
+   local results = wesnoth.synchronize_choices("initiative", show_initiative, identityf({}), sides)
 
    local initiative = sort_initiative(results)
-   --initiative_message(initiative)
 
-   tc_campaign.current_initiative = initiative
+   turn_order.state.current_initiative = initiative
 end
