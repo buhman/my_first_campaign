@@ -2,3 +2,5 @@
 (define-native special_location :bind-to "wesnoth.special_locations")
 (define-native message :bind-to "wesnoth.message")
 (define-native random :bind-to "wesnoth.random")
+(define-native play-sound :bind-to "wesnoth.play_sound")
+(define-native end-turn :bind-to "wesnoth.end_turn")

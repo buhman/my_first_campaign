@@ -82,6 +82,7 @@
 (defun puzzle-solved? (current expected)
   (if (= current expected)
     (progn
+      (wesnoth/play-sound "effects/secret.ogg")
       (wml/act :glyph_puzzle_complete nil)
       true)
     nil))
@@ -115,7 +116,8 @@
       (setq! (nth levers idx) toggle)
       (draw-lever! levers idx)
       (update-glyphs! idx))
-    (wesnoth/message "[lever]" "You attempt to move the lever, but find it is stuck")))
+    (wesnoth/message "[lever]" "You attempt to move the lever, but find it is stuck"))
+  (wesnoth/end-turn))
 
 (defun light-glyphs! ()
   (wml/act :remove_shroud
