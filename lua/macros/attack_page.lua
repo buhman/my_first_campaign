@@ -19,7 +19,7 @@ local defaults = {
          attack_die = "d20",
          attack_mod = "9",
          damage_dice = "1d8s",
-         damage_mod = "5 + (1d10s)d6s",
+         damage_mod = "5 + (1d10s)d4s",
          extra = "1d8s",
       },
    }

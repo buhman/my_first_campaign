@@ -76,8 +76,12 @@ local dialog = {
       x = "(floor((screen_width  - window_width)  / 2))",
       y = "(floor((screen_height - window_height) / 2))",
 
-      T.tooltip { id = "tooltip_large" },
-      T.helptip { id = "tooltip_large" },
+      T.tooltip {
+         id = "tooltip",
+      },
+      T.helptip {
+         id = "tooltip",
+      },
 
       T.grid {
          T.row {

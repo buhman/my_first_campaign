@@ -183,8 +183,30 @@ local attack_page = T.page_definition {
          border_size = 5,
          border = "all",
 
-         tab_bar {
-            id = "preset_tabs"
+         T.grid {
+            T.row {
+               T.column {
+                  tab_bar {
+                     id = "preset_tabs"
+                  }
+               },
+               T.column {
+                  border_size = 5,
+                  border = "left",
+                  T.button {
+                     definition = "add_transparent",
+                     tooltip = "Create new attack profile",
+                  }
+               },
+               T.column {
+                  border_size = 5,
+                  border = "left",
+                  T.button {
+                     definition = "delete_transparent",
+                     tooltip = "Delete selected attack profile",
+                  }
+               }
+            }
          }
       }
    },
