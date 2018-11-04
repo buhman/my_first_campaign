@@ -54,7 +54,7 @@ local dialog = {
             T.label {
                definition = "title",
                id = "title",
-               label = _ "Character emote"
+               label = "Character emote"
             }
          }
       },
@@ -98,7 +98,7 @@ local dialog = {
                      T.button {
                         id = "ok",
                         definition = "default",
-                        label = _ "Emote",
+                        label = "Emote",
                      }
                   },
 
@@ -111,7 +111,7 @@ local dialog = {
                      T.button {
                         id = "cancel",
                         definition = "default",
-                        label = _ "Cancel",
+                        label = "Cancel",
                      }
                   }
                }

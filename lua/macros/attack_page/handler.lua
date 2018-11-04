@@ -85,14 +85,9 @@ local function attack_handler(result)
    return tooltips, attacks
 end
 
-local function save_handler(result)
-   wesnoth.message('save')
-end
-
 -- lua's table model is fucking stupid; luckly we don't need to iterate through this
 local handlers = {
    [dialog.buttons.attack] = {attack_handler, show_results},
-   [dialog.buttons.save] = {identity, save_handler},
    --
    [-1] = {attack_handler, show_results},
 }

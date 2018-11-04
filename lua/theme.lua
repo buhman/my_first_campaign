@@ -19,7 +19,7 @@ function wesnoth.theme_items.unit_weapons()
       }}
 
       for _, order in ipairs(initiative) do
-         value, name, _ = table.unpack(order)
+         local value, name, _ = table.unpack(order)
          s[#s+1] = {
             "element", {
                text = string.format("<span color='#f5e6c1'>  %s</span>: %s\n", name, value)

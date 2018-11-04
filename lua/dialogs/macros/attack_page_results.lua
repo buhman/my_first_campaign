@@ -228,7 +228,7 @@ local make_dialog = function(cfg)
 
                T.label {
                   definition = "title",
-                  label = _ "Attack Outcome",
+                  label = "Attack Outcome",
                   id = "title",
                }
             }
@@ -264,7 +264,7 @@ local make_dialog = function(cfg)
                T.button {
                   id = "cancel",
                   definition = "default",
-                  label = _ "Close",
+                  label = "Close",
                }
             }
          }

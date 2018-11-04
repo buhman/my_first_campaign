@@ -12,11 +12,22 @@ end
 -- filter(function, table)
 -- > filter(function(v) return v == 3 end, {1,2,3,4,5})
 -- {3}
-function filter(f, tbl)
+function filter(func, tbl)
    local t = {}
-   for i, v in pairs(tbl) do
+   for i, v in ipairs(tbl) do
       if func(v) then
-         t[i] = v
+         t[#t+1] = v
+      end
+   end
+   return t
+end
+
+-- non-homogenous data structures are intuitive
+function filter_index(func, tbl)
+   local t = {}
+   for i, v in ipairs(tbl) do
+      if func(i) then
+         t[#t+1] = v
       end
    end
    return t

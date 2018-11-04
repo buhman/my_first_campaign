@@ -4,7 +4,7 @@ local dialog = {
    T.grid {
       T.row {
          T.column {
-            T.text_box { id = "eval_input", label = _ "", history = "eval_input" }
+            T.text_box { id = "eval_input", label = "", history = "eval_input" }
          }
       },
    }

@@ -153,7 +153,7 @@ local dialog = {
 
             T.label {
                definition = "title",
-               label = _ "Select Ability",
+               label = "Select Ability",
             }
          }
       },
@@ -215,7 +215,7 @@ local dialog = {
                      T.button {
                         id = "ok",
                         definition = "default",
-                        label = _ "Cast",
+                        label = "Cast",
                      }
                   },
 
@@ -228,7 +228,7 @@ local dialog = {
                      T.button {
                         id = "cancel",
                         definition = "default",
-                        label = _ "Cancel",
+                        label = "Cancel",
                      }
                   }
                }

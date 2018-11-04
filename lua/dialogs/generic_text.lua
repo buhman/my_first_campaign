@@ -27,7 +27,7 @@ function make_dialog(cfg)
                vertical_grow = true,
                border = "all",
                border_size = 5,
-               T.text_box { id = cfg.id, label = _ "", history = cfg.id }
+               T.text_box { id = cfg.id, label = "", history = cfg.id }
             }
          }
       }

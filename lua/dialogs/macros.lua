@@ -94,7 +94,7 @@ local dialog = {
 
                T.label {
                   definition = "title",
-                  label = _ "Macros",
+                  label = "Macros",
                }
             }
          },
@@ -145,7 +145,7 @@ local dialog = {
 
                T.button {
                   id = "cancel",
-                  label = _ "Close",
+                  label = "Close",
                }
             }
          }

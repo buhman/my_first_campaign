@@ -60,7 +60,7 @@ local dialog = {
             T.label {
                definition = "title",
                id = "title",
-               label = _ "Change scenario"
+               label = "Change scenario"
             }
          }
       },

@@ -1,6 +1,5 @@
 local buttons = {
-   save = 1,
-   attack = 2;
+   attack = 2,
 };
 
 local function tab_bar(cfg)
@@ -63,6 +62,7 @@ local function input_row_text(cfg)
 
       T.text_box {
          id = cfg.id,
+         tooltip = cfg.tooltip,
       }
    }
 end
@@ -89,7 +89,8 @@ local attack_fields = {
             T.column {
                grow_factor = 1,
                T.text_box {
-                  id = "attack_die"
+                  id = "attack_die",
+                  tooltip = "Number of die faces on attack die; this is converted to an appropriate compound roll depending on the selected advantage type."
                }
             },
             T.column {
@@ -133,7 +134,8 @@ local attack_fields = {
             T.column {
                horizontal_grow = true,
                T.text_box {
-                  id = "damage_dice"
+                  id = "damage_dice",
+                  tooltip = "Dice that get re-rolled and summed on a critical hit",
                }
             },
             T.column {
@@ -154,6 +156,7 @@ local attack_fields = {
    input_row_text {
       id = "extra",
       label = "extra",
+      tooltip = "Convenience field for on-hit effects like <i>Critical of the Corrupted Soul</i> and <i>Bash of the Abyss</i>."
    },
 }
 
@@ -194,6 +197,7 @@ local attack_page = T.page_definition {
                   border_size = 5,
                   border = "left",
                   T.button {
+                     id = "create_profile",
                      definition = "add_transparent",
                      tooltip = "Create new attack profile",
                   }
@@ -202,6 +206,7 @@ local attack_page = T.page_definition {
                   border_size = 5,
                   border = "left",
                   T.button {
+                     id = "delete_profile",
                      definition = "delete_transparent",
                      tooltip = "Delete selected attack profile",
                   }
@@ -233,8 +238,9 @@ local attack_page = T.page_definition {
                   border_size = 5,
 
                   T.button {
+                     id = "save_profile",
                      label = "Save",
-                     return_value = buttons.save,
+                     tooltip = "Store displayed values in selected profile",
                   }
                },
 

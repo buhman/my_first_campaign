@@ -106,7 +106,7 @@ local dialog = {
             T.label {
                definition = "title",
                id = "title",
-               label = _ "Place unit"
+               label = "Place unit"
             }
          }
       },
