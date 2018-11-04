@@ -137,7 +137,7 @@ local dialog = {
    max_height = 900,
    max_width = 900,
 
-   T.linked_group { id = "image", fixed_width = true },
+   T.linked_group { id = "image", fixed_width = true, fixed_height = true, },
    T.linked_group { id = "name", fixed_width = true },
 
    T.grid {

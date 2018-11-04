@@ -1,3 +1,5 @@
+local gm_side = 1
+
 local abilities = {
    blink = {
       name = "Blink",
@@ -166,6 +168,25 @@ Golems
 <b>Dash</b>
 
 When you take the Dash action, you gain extra movement for the current turn. The increase equals your speed, after applying any modifiers.
+]]
+   },
+   overwhelm = {
+      name = "Overwhelm",
+      icon = "icons/abilities/storm_hammer.png~SCALE(60,60)",
+      image = "icons/abilities/storm_hammer.png",
+      properties = {
+         cast_type = "unit_target",
+         cast_range = 5,
+         cast_effect = "overwhelm",
+         cast_sound = "abilities/storm_hammer.ogg",
+      },
+      description = [[
+<b>Overwhelm</b> <i>(Recharge 6)</i>
+Duration: <i>1 round</i>
+
+The targeted creature must perform a DC 20 athletics save against a physical manifestation of the blade's will. On a failed contest, the duration is doubled. This effect is considered non-magical, and can't be avoided by magical means.
+
+For the duration, the target <b>Unconcious</b>.
 ]]
    }
 }
@@ -429,6 +450,35 @@ local effects = {
    dash = function(unit, properties, target)
       unit.moves = unit.moves + unit.max_moves
    end,
+
+   overwhelm = function(unit, properties, target)
+      local target = wesnoth.get_unit(target.x, target.y)
+
+      local function save()
+         local saved = wesnoth.show_message_box("Overwhelm", "Target saved?", "yes_no")
+         return { saved = saved }
+      end
+
+      local result = wesnoth.synchronize_choices("overwhelm_outcome", save, identityf({}), {gm_side})
+      local saved = result[gm_side].saved
+      local duration = saved and 1 or 2
+
+      wml_actions.petrify {
+         x = target.x,
+         y = target.y,
+      }
+
+      wml_actions.event {
+         name = "side " .. unit.side .. " turn " .. (wesnoth.current.turn + duration),
+         T.command {
+            T.unpetrify {
+               x = target.x,
+               y = target.y,
+            }
+         }
+      }
+
+   end
 }
 
 return {
