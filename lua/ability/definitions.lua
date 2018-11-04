@@ -383,6 +383,10 @@ local effects = {
       }
 
       for _, loc in ipairs(locs) do
+         wml_actions.remove_shroud {
+            x = loc[1],
+            y = loc[2] - 5,
+         }
          items.place_halo(loc[1], loc[2] - 5, halo)
       end
 
