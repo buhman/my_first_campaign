@@ -14,8 +14,12 @@ local old_unit_weapons = wesnoth.theme_items.unit_weapons
 
 
 local function row_for_side(side, value)
-   local unit = utils.unit_for_side(side)
+   local unit = utils.unit_for_side(tonumber(side))
    local name = unit and unit.name or "Side " .. side
+   -- wtf bugs?
+   if tonumber(side) == 1 then
+      name = "GM"
+   end
    local row = T.element {
       text = string.format("<span color='#f5e6c1'>  %s</span>: %s\n", name, value)
    }

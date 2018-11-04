@@ -22,7 +22,7 @@ local macro_list = T.listbox {
                         grow_factor = 0,
                         horizontal_alignment = "left",
                         border = "all",
-                        border_size = 5,
+                        border_size = 10,
                         T.label {
                            id = "macro_name",
                         }
@@ -70,7 +70,7 @@ local dialog = {
 
       automatic_placement = false,
 
-      width = "(min(screen_width, 500))",
+      width = "(min(screen_width, 550))",
       height = "(min(screen_height, 500))",
 
       x = "(floor((screen_width  - window_width)  / 2))",
