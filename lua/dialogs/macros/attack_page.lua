@@ -79,7 +79,7 @@ local attack_fields = {
       T.slider {
          id = "multiattack",
          minimum_value = 1,
-         maximum_value = 5,
+         maximum_value = 6,
       }
    },
    input_row {

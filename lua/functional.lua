@@ -75,6 +75,27 @@ function repeat_n(val, n)
    return t
 end
 
+-- fif
+-- > fif(1 == 1, "yes", "no")
+-- yes
+function fif(condition, if_true, if_false)
+   if condition then return if_true else return if_false end
+end
+
+function identity(val)
+   return val
+end
+
+-- identityf
+-- > f = identityf(1)
+-- > f()
+-- 1
+function identityf(val)
+   return function()
+      return val
+   end
+end
+
 -- table aliases
 
 push = table.insert

@@ -16,7 +16,6 @@ end
 function wml_actions.yield_turn(cfg)
    order.yield_to = cfg.side
    order.yield_from = wesnoth.current.side
-   wesnoth.message("yield_from", order.yield_from)
 
    wesnoth.end_turn(order.yield_to)
 end

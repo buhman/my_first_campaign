@@ -68,7 +68,35 @@ local function result_image_column(cfg)
    }
 end
 
-local function result_list(tooltips)
+local gm_extra_headers = {
+   result_header {
+      id = "outcome",
+      label = "Outcome?",
+   }
+}
+
+local gm_extra_columns = {
+   T.column {
+      grow_factor = 1,
+      horizontal_grow = true,
+      border = "all",
+      border_size = 5,
+
+      T.slider {
+         id = "outcome",
+         minimum_value = -1,
+         maximum_value = 1,
+         minimum_value_label = "miss",
+         maximum_value_label = "hit",
+
+         best_slider_length = 50,
+
+         linked_group = "outcome" .. "_group",
+      }
+   }
+}
+
+local function result_list(cfg)
    return T.listbox {
       id = "attack_result_list",
       definition = "default",
@@ -90,7 +118,8 @@ local function result_list(tooltips)
             result_header {
                id = "extra",
                label = "Extra",
-            }
+            },
+            table.unpack(cfg.extra_headers and cfg.extra_headers or {}),
          }
       },
 
@@ -111,16 +140,17 @@ local function result_list(tooltips)
                         },
                         result_column {
                            id = "attack",
-                           tooltip = tooltips.attack,
+                           tooltip = cfg.tooltips.attack,
                         },
                         result_column {
                            id = "damage",
-                           tooltip = tooltips.damage,
+                           tooltip = cfg.tooltips.damage,
                         },
                         result_column {
                            id = "extra",
-                           tooltip = tooltips.extra,
-                        }
+                           tooltip = cfg.tooltips.extra,
+                        },
+                        table.unpack(cfg.extra_columns and cfg.extra_columns or {}),
                      }
                   }
                }
@@ -138,7 +168,7 @@ local function fixed_width_group(cfg)
 end
 
 -- set_tooltip isn't exposed; luckily we don't need unique tooltips per row
-local dialog = function(tooltips)
+local make_dialog = function(cfg)
    return {
       id = "attack_page_results",
       description = "attack outcome",
@@ -165,6 +195,9 @@ local dialog = function(tooltips)
       },
       fixed_width_group {
          id = "extra",
+      },
+      fixed_width_group {
+         id = "outcome",
       },
 
       T.tooltip {
@@ -195,7 +228,7 @@ local dialog = function(tooltips)
 
                T.label {
                   definition = "title",
-                  label = _ "Attack Results",
+                  label = _ "Attack Outcome",
                   id = "title",
                }
             }
@@ -211,7 +244,11 @@ local dialog = function(tooltips)
                border = "all",
                border_size = 5,
 
-               result_list(tooltips),
+               result_list {
+                  tooltips = cfg.tooltips,
+                  extra_columns = cfg.extra_columns,
+                  extra_headers = cfg.extra_headers,
+               },
             }
          },
 
@@ -235,4 +272,8 @@ local dialog = function(tooltips)
    }
 end
 
-return dialog
+return {
+   make_dialog = make_dialog,
+   gm_columns = gm_extra_columns,
+   gm_headers = gm_extra_headers,
+}

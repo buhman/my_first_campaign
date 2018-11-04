@@ -4,6 +4,8 @@ local dialog = require "dialogs/macros/attack_page" -- for buttons
 local engine = require "eval/engine"
 local show_results = require "macros/attack_page/result"
 
+local json = require "json"
+
 local attack_dice = {
    -- XXX meh hardcoded constants
    [1] = function(die) return "2" .. die .. "kh" end,
@@ -39,7 +41,7 @@ local damage_expr = {
 
 local damage_color = {
    success = "green",
-   failure = "red",
+   failure = "indianred",
 }
 
 local function single_attack(fields)
@@ -50,7 +52,6 @@ local function single_attack(fields)
    local damage_roll = damage[success_type](fields.damage_dice)
 
    local outcome = {
-      --critical = success_type == "success",
       attack = {
          color = damage_color[success_type],
          value = attack_roll + engine.eval_single(fields.attack_mod),
@@ -81,7 +82,7 @@ local function attack_handler(result)
       extra = fields.extra,
    }
 
-   show_results(tooltips, attacks)
+   return tooltips, attacks
 end
 
 local function save_handler(result)
@@ -90,10 +91,10 @@ end
 
 -- lua's table model is fucking stupid; luckly we don't need to iterate through this
 local handlers = {
-   [dialog.buttons.attack] = attack_handler,
-   [dialog.buttons.save] = save_handler,
-   -- default
-   [-1] = attack_handler,
+   [dialog.buttons.attack] = {attack_handler, show_results},
+   [dialog.buttons.save] = {identity, save_handler},
+   --
+   [-1] = {attack_handler, show_results},
 }
 
 local function handler(return_code, result)
@@ -112,8 +113,24 @@ local function handler(return_code, result)
       }
    ]]--
 
-   -- handler dispatch
-   handlers[return_code](result)
+   local prepare, callback = table.unpack(handlers[return_code])
+
+   -- safe handler dispatch
+   -- pretty sure I'm making this harder than it needs to be
+   local function synchronize_handler()
+      data = table.pack(prepare(result))
+      -- lol lua
+      data.n = nil
+
+      return {json = json.encode(data)}
+   end
+
+   local res = wesnoth.synchronize_choice("synchronize_handler", synchronize_handler)
+
+   local data = json.decode(res.json)
+
+   -- such lua, much wow
+   callback(table.unpack(data))
 end
 
 return handler

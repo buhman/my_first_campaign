@@ -1,4 +1,4 @@
-local dialog = require("dialogs/initiative")
+local gt = require("dialogs/generic_text")
 
 local eval = require("eval")
 local engine = require("eval/engine")
@@ -8,7 +8,7 @@ local function preshow(side)
    local side = wesnoth.get_viewing_side()
    local name = utils.unit_for_side(side).name
 
-   wesnoth.set_dialog_focus("eval_input")
+   wesnoth.set_dialog_focus("eval_initiative")
    wesnoth.set_dialog_value("Roll initiative for " .. name, "title")
 end
 
@@ -58,8 +58,12 @@ function wml_actions.roll_initiative(cfg)
    local function show_initiative()
       local result = {}
 
+      local dialog = make_dialog {
+         id = "eval_initiative",
+      }
       local val = wesnoth.show_dialog(dialog, preshow, eval.make_postshow(result))
 
+      -- XXX maybe use single_eval
       if not result.stack or #(result.stack) ~= 1 or type(result.stack[1]) ~= "number" then
          local explain = "your expression was either malformed, or returned multiple values (did you forget 's' on a dice roll?)"
          local msg = string.format("single value required, got: %s\n%s", result.value, explain)

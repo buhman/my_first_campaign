@@ -12,8 +12,8 @@ local eval = compose(
 
 local function eval_single(expr)
    local stack = eval(expr)
-   if #stack ~= 1 then
-      local msg = [[usage error: single stack return value required
+   if #stack ~= 1 or type(stack[1]) ~= "number" then
+      local msg = [[usage error: single stack return value of type `number` required
     expr = %q
     #stack = %q
     dump(stack) = %s
