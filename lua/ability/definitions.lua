@@ -1,4 +1,5 @@
 local dialog = require "dialogs/generic_text"
+local utils = require "utils"
 
 local gm_side = 1
 
@@ -189,6 +190,20 @@ Duration: <i>2 rounds</i>
 The targeted creature must perform an athletics contest against a physical manifestation of the blade's will. On a 25 or higher, overwhelm has no effect. On a 20 or higher, overwhelm's duration is halved. On failure, the target is affected for the full duration.
 
 For the duration, the target <b>Unconcious</b>.
+]]
+   },
+   avatar = {
+      name = "Avatar",
+      icon = "icons/abilities/avatar.png~SCALE(60,60)",
+      image = "icons/abilities/avatar.png",
+      properties = {
+         cast_type = "self",
+         cast_effect = "avatar",
+         cast_sound = "abilities/avatar.ogg",
+      },
+      description = [[
+<b>Avatar</b>  <i>(5 Charges)</i>
+Duration: <i>1 minute</i>
 ]]
    }
 }
@@ -503,9 +518,74 @@ local effects = {
             }
          }
       }
+   end,
 
+   avatar = function(unit, properties, target)
+      local frame = T.avatar_frame {
+         start_time = 0,
+         image = "halo/avatar/avatar-[8~1,1~8].png:150",
+      }
+      local effects = {
+         id = "avatar_animation",
+         T.effect {
+            apply_to = "new_animation",
+            T.extra_anim {
+               flag = "avatar",
+               frame,
+            },
+            T.standing_anim {
+               flag = "avatar",
+               frame,
+            }
+         }
+      }
+
+      wesnoth.add_modification(unit, "object", effects)
+
+      -- start animation immediately
+      wml_actions.animate_unit {
+         T.filter {
+            id = unit.id,
+         },
+         with_bars = true,
+         flag = "avatar"
+      }
+
+      local duration = 10
+      wml_actions.event {
+         name = "side " .. unit.side .. " turn " .. (wesnoth.current.turn + duration),
+         T.command {
+            T.remove_unit_modifications {
+               T.unit_filter {
+                  id = unit.id,
+               },
+               T.wml_filter {
+                  id = "avatar_animation",
+               }
+            },
+            -- stop animation immediately
+            T.animate_unit {
+               T.filter {
+                  id = unit.d,
+               },
+               with_bars = true,
+               flag = "avatar",
+            }
+         }
+      }
    end
 }
+
+function wml_actions.remove_unit_modifications(cfg)
+   local cfg = wml.literal(cfg)
+   local unit_filter = utils.get_tag("unit_filter", cfg)
+   local wml_filter = utils.get_tag("wml_filter", cfg)
+
+   local units = wesnoth.get_units(unit_filter)
+   for _, unit in ipairs(units) do
+      wesnoth.remove_modifications(unit, wml_filter)
+   end
+end
 
 return {
    abilities = abilities,

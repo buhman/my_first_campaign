@@ -1,3 +1,5 @@
+require "functional"
+
 local function unit_for_side(side)
    local units = wesnoth.get_units {
       side = side,
@@ -24,8 +26,16 @@ local function swap_keys(tbl)
    return t
 end
 
+function get_tag(tag_name, wml)
+   local t = filter(function (v) return v[1] == tag_name end, wml)
+   local t = map(function(i) return i[2] end, t)
+   assert(#t == 1)
+   return t[1]
+end
+
 return {
    unit_for_side = unit_for_side,
    side_list = side_list,
    swap_keys = swap_keys,
+   get_tag = get_tag,
 }
