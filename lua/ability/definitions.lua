@@ -11,7 +11,7 @@ local abilities = {
          cast_type = "point_target",
          cast_range = 30,
          cast_sound = "abilities/blink.ogg",
-         cast_effect = "teleport",
+         cast_effect = "blink",
       },
       description = [[
 <b>Blink</b> <i>(Recharge 3-6)</i>
@@ -277,7 +277,11 @@ local effects = {
    null = function(unit, properties, target)
    end,
 
-   teleport = function(unit, properties, target)
+   blink = function(unit, properties, target)
+      local halo = "halo/blink/blink[1~2].png~RC(magenta>" .. wesnoth.sides[unit.side].color .. "):[120,500],misc/empty.png:1000"
+      local x, y = unit.x, unit.y
+      items.place_halo(x, y, halo)
+
       wml_actions.teleport {
          T.filter {
             id = unit.id
@@ -285,6 +289,12 @@ local effects = {
          x = target.x,
          y = target.y,
       }
+
+      wml_actions.delay {
+         time = 1000
+      }
+
+      items.remove(x, y, halo)
    end,
 
    mirror_image = function(unit, properties, target)
@@ -335,13 +345,14 @@ local effects = {
 
    mana_void = function(unit, properties, target)
       local halo = "halo/implosion/implosion-1-[1~10].png:120,misc/empty.png:1000"
-      items.place_halo(target.x, target.y, halo)
+      local x, y = target.x, target.y
+      items.place_halo(x, y, halo)
 
       wml_actions.delay {
          time = 1800
       }
 
-      items.remove(target.x, target.y, halo)
+      items.remove(x, y, halo)
    end,
 
    deafening_blast = function(unit, properties, target)
