@@ -33,6 +33,33 @@ function get_tag(tag_name, wml)
    return t[1]
 end
 
+function unit_halo_oneshot(unit, image, effect_id)
+   local frame = T.extra_frame {
+      start_time = 0,
+      image = image,
+   }
+   local effects = {
+      id = effect_id,
+      T.effect {
+         apply_to = "new_animation",
+         T.extra_anim {
+            flag = effect_id,
+            frame,
+         },
+      }
+   }
+
+   wesnoth.add_modification(unit, "object", effects)
+
+   wml_actions.animate_unit {
+      T.filter {
+         id = unit.id,
+      },
+      with_bars = true,
+      flag = effect_id,
+   }
+end
+
 return {
    unit_for_side = unit_for_side,
    side_list = side_list,
