@@ -20,6 +20,34 @@ local messages = {
    {
       text = "Are you even trying?",
       sound = "antimage/are_you_even_trying.ogg",
+   },
+   {
+      text = "Spawn of sorcery!",
+      sound = "antimage/spawn_of_sorcery.ogg",
+   },
+   {
+      text = "Prepare thyself!",
+      sound = "antimage/prepare_thyself.ogg",
+   },
+   {
+      text = "I've sundered this cabal!",
+      sound = "antimage/sundered_cabal.ogg",
+   },
+   {
+      text = "Here's thy reckoning",
+      sound = "antimage/heres_thy_reckoning.ogg",
+   },
+   {
+      text = "Bark on bitch, I hear thee not",
+      sound = "antimage/bark_on_bitch.ogg",
+   },
+   {
+      text = "Beset on all sides, still I prevail!",
+      sound = "antimage/beset_on_all_sides.ogg",
+   },
+   {
+      text = "Vile sorcerers, to thy just reward my blade compels thee.",
+      sound = "antimage/vile_sorcerers.ogg",
    }
 }
 
