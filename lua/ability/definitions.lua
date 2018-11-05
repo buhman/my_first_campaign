@@ -202,8 +202,26 @@ For the duration, the target <b>Unconcious</b>.
          cast_sound = "abilities/avatar.ogg",
       },
       description = [[
-<b>Avatar</b>  <i>(5 Charges)</i>
+<b>Avatar</b> <i>(5 Charges)</i>
 Duration: <i>1 minute</i>
+
+See item sheet.
+]]
+   },
+   spellblock = {
+      name = "Spellblock",
+      icon = "icons/abilities/spellblock.png~SCALE(60,60)",
+      image = "icons/abilities/spellblock.png",
+      properties = {
+         cast_type = "unit_target",
+         -- a little hacky
+         cast_range = 200,
+         cast_effect = "spellblock",
+         cast_sound = "abilities/spellblock.ogg",
+      },
+      description = [[
+<b>Avatar</b> <i>(1 Reaction)</i>
+Duration: <i>Instantaneous</i>
 ]]
    }
 }
@@ -573,7 +591,15 @@ local effects = {
             }
          }
       }
-   end
+   end,
+
+   spellblock = function(unit, properties, target)
+      local image = "halo/spellblock/spellblock-[0,0,1,1~7].png~SCALE_SHARP(75,75):250"
+
+      local target = wesnoth.get_unit(target.x, target.y)
+
+      utils.unit_halo_oneshot(target, image, "spellblock")
+   end,
 }
 
 function wml_actions.remove_unit_modifications(cfg)

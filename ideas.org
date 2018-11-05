@@ -17,3 +17,7 @@ could filter with text box (like the debug menu)
 should show recruit animation
 
 should show column headings
+
+* golem animation
+
+use recolored projectiles/secrethit.png for golem landing

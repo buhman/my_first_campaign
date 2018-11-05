@@ -33,7 +33,7 @@ function get_tag(tag_name, wml)
    return t[1]
 end
 
-function unit_halo_oneshot(unit, image, effect_id)
+local function unit_halo_oneshot(unit, image, effect_id)
    local frame = T.extra_frame {
       start_time = 0,
       image = image,
@@ -65,4 +65,5 @@ return {
    side_list = side_list,
    swap_keys = swap_keys,
    get_tag = get_tag,
+   unit_halo_oneshot = unit_halo_oneshot,
 }
