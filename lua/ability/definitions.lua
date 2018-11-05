@@ -377,15 +377,10 @@ local effects = {
    end,
 
    mana_void = function(unit, properties, target)
-      local halo = "halo/implosion/implosion-1-[1~10].png:120,misc/empty.png:1000"
-      local x, y = target.x, target.y
-      items.place_halo(x, y, halo)
+      local image = "halo/implosion/implosion-1-[1~10].png:120"
+      local target = wesnoth.get_unit(target.x, target.y)
 
-      wml_actions.delay {
-         time = 1800
-      }
-
-      items.remove(x, y, halo)
+      utils.unit_halo_oneshot(target, image, "mana_void")
    end,
 
    deafening_blast = function(unit, properties, target)
@@ -595,7 +590,6 @@ local effects = {
 
    spellblock = function(unit, properties, target)
       local image = "halo/spellblock/spellblock-[0,0,1,1~7].png~SCALE_SHARP(75,75):250"
-
       local target = wesnoth.get_unit(target.x, target.y)
 
       utils.unit_halo_oneshot(target, image, "spellblock")
