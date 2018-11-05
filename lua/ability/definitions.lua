@@ -1,3 +1,5 @@
+local dialog = require "dialogs/generic_text"
+
 local gm_side = 1
 
 local abilities = {
@@ -182,9 +184,9 @@ When you take the Dash action, you gain extra movement for the current turn. The
       },
       description = [[
 <b>Overwhelm</b> <i>(Recharge 6)</i>
-Duration: <i>1 round</i>
+Duration: <i>2 rounds</i>
 
-The targeted creature must perform a DC 20 athletics save against a physical manifestation of the blade's will. On a failed contest, the duration is doubled. This effect is considered non-magical, and can't be avoided by magical means.
+The targeted creature must perform an athletics contest against a physical manifestation of the blade's will. On a 25 or higher, overwhelm has no effect. On a 20 or higher, overwhelm's duration is halved. On failure, the target is affected for the full duration.
 
 For the duration, the target <b>Unconcious</b>.
 ]]
@@ -455,13 +457,26 @@ local effects = {
       local target = wesnoth.get_unit(target.x, target.y)
 
       local function save()
-         local saved = wesnoth.show_message_box("Overwhelm", "Target saved?", "yes_no")
-         return { saved = saved }
+         result = {}
+         local dialog = make_dialog {
+            id = "overwhelm_duration",
+            label = "Overwhelm duration?",
+         }
+         local function postshow()
+            result.duration = tonumber(wesnoth.get_dialog_value("overwhelm_duration"))
+         end
+         while not result.duration or result.duration < 0 or result.duration > 2 do
+            wesnoth.show_dialog(dialog, function () end, postshow)
+         end
+         return result
       end
 
       local result = wesnoth.synchronize_choices("overwhelm_outcome", save, identityf({}), {gm_side})
-      local saved = result[gm_side].saved
-      local duration = saved and 1 or 2
+      local duration = result[gm_side].duration
+
+      if duration == 0 then
+         return
+      end
 
       wml_actions.petrify {
          x = target.x,
