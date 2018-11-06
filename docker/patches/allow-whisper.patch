@@ -1,0 +1,35 @@
+diff --git a/src/server/server.cpp b/src/server/server.cpp
+index 0515f90e6dd..e120d07476b 100644
+--- a/src/server/server.cpp
++++ b/src/server/server.cpp
+@@ -851,7 +851,7 @@ bool server::authenticate(
+ 			// This name is registered and no password provided
+ 			if(password.empty()) {
+ 				if(!name_taken) {
+-					send_password_request(socket, "The nickname '" + username + "' is registered on this server.",  
++					send_password_request(socket, "The nickname '" + username + "' is registered on this server.",
+ 						username, version, MP_PASSWORD_REQUEST);
+ 				} else {
+ 					send_password_request(socket,
+@@ -909,7 +909,7 @@ bool server::authenticate(
+ 						"You have made too many failed login attempts.", MP_TOO_MANY_ATTEMPTS_ERROR);
+ 				} else {
+ 					send_password_request(socket,
+-						"The password you provided for the nickname '" + username + "' was incorrect.", username,version, 
++						"The password you provided for the nickname '" + username + "' was incorrect.", username,version,
+ 						MP_INCORRECT_PASSWORD_ERROR);
+ 				}
+ 
+@@ -1085,10 +1085,12 @@ void server::handle_whisper(socket_ptr socket, simple_wml::node& whisper)
+ 	}
+ 
+ 	auto g = player_connections_.find(socket)->get_game();
++	/*
+ 	if(g && g->started() && g->is_player(receiver_iter->socket()) && g->is_member(socket)) {
+ 		send_server_message(socket, "You cannot send private messages to players in a running game you observe.");
+ 		return;
+ 	}
++	*/
+ 
+ 	simple_wml::document cwhisper;
+ 

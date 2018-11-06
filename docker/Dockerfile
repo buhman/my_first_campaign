@@ -18,6 +18,11 @@ RUN apt-get install -y -qq libsdl2-dev
 
 RUN git clone --single-branch -b 1.14 https://github.com/wesnoth/wesnoth
 
+ADD patches /patches/
+
+RUN cd wesnoth \
+        && git apply /patches/allow-whisper.patch
+
 RUN cd wesnoth \
         && mkdir build \
         && cd build \
