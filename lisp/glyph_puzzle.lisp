@@ -6,7 +6,7 @@
 (import wml)
 
 (define colors '("red" "green" "blue"))
-(define glyph-len 4)
+(define glyph-len 5)
 (define glyph-mask (- (pow 2 glyph-len) 1))
 
 (define lever-ops
@@ -100,8 +100,8 @@
 
 (defun new-puzzle! (&cfg)
   (let ((levers (list nil nil nil))
-        (current (wesnoth/random 0 15))
-        (expected (wesnoth/random 0 15)))
+        (current (wesnoth/random 0 glyph-mask))
+        (expected (wesnoth/random 0 glyph-mask)))
     (set-state-levers! state levers)
     (set-state-current! state current)
     (set-state-expected! state expected)
@@ -148,7 +148,7 @@
 
 (defun init-draw! (&cfg)
   (draw-levers! (list nil nil nil))
-  (draw-glyphs! 0 15))
+  (draw-glyphs! 0 glyph-mask))
 
 (.<! wesnoth/wml_actions :glyph_puzzle_init init-draw!)
 (.<! wesnoth/wml_actions :glyph_toggle_lever toggle-lever!)
