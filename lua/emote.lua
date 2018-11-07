@@ -48,7 +48,11 @@ local messages = {
    {
       text = "Vile sorcerers, to thy just reward my blade compels thee.",
       sound = "antimage/vile_sorcerers.ogg",
-   }
+   },
+   {
+      text = "Magic thyself out of that!",
+      sound = "antimage/magic_thyself.ogg",
+   },
 }
 
 local function preshow()
